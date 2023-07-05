@@ -17,7 +17,6 @@ class _HomeState extends State<Home> {
     const RestaurantHome(),
     const Text('Index 1: search'),
     const Text('profile'),
-    const Text('shopping cart'),
   ];
 
   PageController _pageController = PageController();
@@ -68,6 +67,38 @@ class _HomeState extends State<Home> {
             ),
           ),
           body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
+          floatingActionButton: Container(
+            width: 150,
+            height: 43,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              color: Colors.black
+            ),
+            child: GestureDetector(
+              onTap: (){
+
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('View Cart', style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18
+                  ),),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(Icons.arrow_forward, color: Colors.white,)
+                ],
+              ),
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.black,
@@ -80,8 +111,7 @@ class _HomeState extends State<Home> {
                   label: 'search', icon: Icon(Icons.search)),
               BottomNavigationBarItem(
                   label: 'profile', icon: Icon(Icons.person)),
-              BottomNavigationBarItem(
-                  label: 'chart', icon: Icon(Icons.shopping_cart)),
+
             ],
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,

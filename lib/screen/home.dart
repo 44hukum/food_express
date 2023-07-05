@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodcommerce/widgets/products.dart';
 
 class RestaurantHome extends StatefulWidget {
   const RestaurantHome({Key? key}) : super(key: key);
@@ -351,77 +352,74 @@ class _RestaurantHomeState extends State<RestaurantHome> {
               collapsedHeight: 80,
               automaticallyImplyLeading: false,
               flexibleSpace: FlexibleSpaceBar(
-                background: Padding(
-                  padding: const EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: 400,
-                        height: 48,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24),
-                            topRight: Radius.circular(24),
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(24),
-                          ),
-                          color: Colors.black,
+                background: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 400,
+                      height: 48,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24),
                         ),
-                        child: const TabBar(
-                            splashBorderRadius:
-                            BorderRadius.all(Radius.circular(11)),
-                            padding: EdgeInsets.all(6),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.white,
-                            indicator: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
-                              color: Colors.red,
-                            ),
-                            tabs: [
-                              Tab(
-                                  child: Text(
-                                    'Breakfast',
-                                    style: TextStyle(
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 18,
-                                        letterSpacing:
-                                        0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1),
-                                  )),
-                              Tab(
-                                  child: Text(
-                                    'Lunch',
-                                    style: TextStyle(
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 18,
-                                        letterSpacing:
-                                        0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1),
-                                  )),
-                              Tab(
-                                  child: Text(
-                                    'Dinner',
-                                    style: TextStyle(
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 18,
-                                        letterSpacing:
-                                        0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1),
-                                  )),
-                            ]),
+                        color: Colors.black,
                       ),
-                    ],
-                  ),
+                      child: const TabBar(
+                          splashBorderRadius:
+                          BorderRadius.all(Radius.circular(11)),
+                          padding: EdgeInsets.all(6),
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.white,
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                            color: Colors.red,
+                          ),
+                          tabs: [
+                            Tab(
+                                child: Text(
+                                  'Breakfast',
+                                  style: TextStyle(
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 18,
+                                      letterSpacing:
+                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1),
+                                )),
+                            Tab(
+                                child: Text(
+                                  'Lunch',
+                                  style: TextStyle(
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 18,
+                                      letterSpacing:
+                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1),
+                                )),
+                            Tab(
+                                child: Text(
+                                  'Dinner',
+                                  style: TextStyle(
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 18,
+                                      letterSpacing:
+                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1),
+                                )),
+                          ]),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -429,11 +427,51 @@ class _RestaurantHomeState extends State<RestaurantHome> {
         },
         body: TabBarView(children: [
           ListView(
-            padding: EdgeInsets.only(left: 10),
-            children: const [Text('Hello')],
+            padding: EdgeInsets.all(0),
+            children: const [
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+
+            ],
           ),
-          Text('he'),
-          Text('heloo'),
+          ListView(
+            padding: EdgeInsets.all(0),
+            children: const [
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+
+            ],
+          ),
+          ListView(
+            padding: EdgeInsets.all(0),
+            children: const [
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+              Products(),
+
+            ],
+          ),
+
         ]),
       ),
     );
