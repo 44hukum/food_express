@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodcommerce/screen/home.dart';
+import 'package:foodcommerce/services/cart.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,6 +31,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return PageView(
       controller: _pageController,
       children: [
@@ -67,37 +71,41 @@ class _HomeState extends State<Home> {
             ),
           ),
           body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
-          floatingActionButton: Container(
-            width: 150,
-            height: 43,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+          floatingActionButton: Consumer<CartModel>(
+            builder: (context, cartProvider,_){
+              return cartProvider.length() > 0 ?  GestureDetector(
+                onTap: (){
+                    Navigator.pushNamed(context, 'checkout');
+                },
+                child: Container(
+                    width: 150,
+                    height: 43,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        color: Colors.black
+                    ),
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('View Cart', style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18
+                        ),),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(Icons.arrow_forward, color: Colors.white,)
+                      ],
+                    )
                 ),
-              color: Colors.black
-            ),
-            child: GestureDetector(
-              onTap: (){
-
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('View Cart', style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18
-                  ),),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(Icons.arrow_forward, color: Colors.white,)
-                ],
-              ),
-            ),
+              ): Container();
+            },
           ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

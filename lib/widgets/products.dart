@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/services/cart.dart';
+import 'package:provider/provider.dart';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -9,10 +11,12 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   bool addToCart = false;
-  int quantity = 1;
+  int quantity = 0;
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = context.read<CartModel>();
+
     return Column(
       children: [
         GestureDetector(
@@ -98,9 +102,14 @@ class _ProductsState extends State<Products> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              quantity > 1
-                                  ? quantity = quantity - 1
-                                  : quantity = 1;
+                              if(quantity > 0 ){
+                                quantity = quantity - 1;
+                              }else{
+                                quantity = 0;
+                                cartProvider.removeAll();
+                              }
+
+
                             });
                           },
                           child: SizedBox(
@@ -161,31 +170,40 @@ class _ProductsState extends State<Products> {
                     )
                   : Container(),
               addToCart == true
-                  ? Container(
-                      width: 100,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
-                          bottomLeft: Radius.circular(24),
-                          bottomRight: Radius.circular(24),
+                  ? GestureDetector(
+                    onTap: (){
+                      if(quantity > 0){
+                        cartProvider.add('$quantity');
+                      }else{
+                        print("At least 1 item");
+                      }
+                    },
+                    child: Container(
+                        width: 100,
+                        height: 30,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
+                            bottomLeft: Radius.circular(24),
+                            bottomRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: const Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 14,
+                              letterSpacing:
+                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                              fontWeight: FontWeight.normal,
+                              height: 1.4285714285714286),
                         ),
                       ),
-                      child: const Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontFamily: 'SF Pro Display',
-                            fontSize: 14,
-                            letterSpacing:
-                                0 /*percentages not used in flutter. defaulting to zero*/,
-                            fontWeight: FontWeight.normal,
-                            height: 1.4285714285714286),
-                      ),
-                    )
+                  )
                   : Container(),
             ],
           ),

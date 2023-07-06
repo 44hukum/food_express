@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodcommerce/services/cart.dart';
 import 'package:foodcommerce/widgets/products.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantHome extends StatefulWidget {
   const RestaurantHome({Key? key}) : super(key: key);

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/pages/checkout.dart';
 import 'package:foodcommerce/pages/home.dart';
+import 'package:foodcommerce/services/cart.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Commerce',
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'home',
-      routes: {
-        'home':  (context) => const Home()
-      },
+    return ChangeNotifierProvider(
+      create: (context)=> CartModel(),
+      child: MaterialApp(
+        title: 'Food Commerce',
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'home',
+        routes: {
+          'home':  (context) => const Home(),
+          'checkout':  (context) => const MyCheckoutCart(),
+
+        },
+      ),
     );
   }
 }
