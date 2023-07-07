@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodcommerce/pages/checkout.dart';
 import 'package:foodcommerce/pages/home.dart';
 import 'package:foodcommerce/pages/login.dart';
-import 'package:foodcommerce/pages/profile.dart';
 import 'package:foodcommerce/pages/signup.dart';
+import 'package:foodcommerce/screen/restaurant_info.dart';
 import 'package:foodcommerce/services/cart.dart';
 import 'package:provider/provider.dart';
 
@@ -21,13 +21,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Food Commerce',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'profile',
+        initialRoute: 'home',
         routes: {
           'home':  (context) => const Home(),
           'checkout':  (context) => const MyCheckoutCart(),
           'login': (context) => LoginPage(),
           'signup': (context) => SignupPage(),
-          'profile': (context) => ProfilePage()
+          'info': (context) => RestaurantInfoPage()
 
         },
       ),

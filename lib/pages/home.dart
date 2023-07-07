@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodcommerce/pages/profile.dart';
+import 'package:foodcommerce/pages/search.dart';
 import 'package:foodcommerce/screen/home.dart';
 import 'package:foodcommerce/services/cart.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +17,8 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const RestaurantHome(),
-    const Text('Index 1: search'),
-    const Text('profile'),
+    SearchLandingPage(),
+    ProfilePage()
   ];
 
   PageController _pageController = PageController();

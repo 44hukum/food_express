@@ -26,8 +26,9 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                 IconButton(
                   icon: const Icon(Icons.shopping_cart),
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('This is a snackbar')));
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(content: Text('This is a snackbar')));
+                    Navigator.pushNamed(context, 'checkout');
                   },
                 ),
               ],
@@ -282,54 +283,59 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                            width: 50,
-                            child: SvgPicture.asset(
-                                'lib/assets/icons/info.svg',
-                                semanticsLabel: 'path'),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Info',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontFamily: 'SF Pro Display',
-                                    fontSize: 14,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.4285714285714286),
-                              ),
-                              Text(
-                                'About Restaurants, Offers and Opening Hours',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(107, 107, 107, 1),
-                                    fontFamily: 'SF Pro Display',
-                                    fontSize: 12,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.3333333333333333),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset(
-                            'lib/assets/icons/forward.svg',
-                            semanticsLabel: 'path'),
-                      ),
-                    ],
+                  GestureDetector(
+                   onTap: (){
+                     Navigator.pushNamed(context, 'info');
+                   },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 30,
+                              width: 50,
+                              child: SvgPicture.asset(
+                                  'lib/assets/icons/info.svg',
+                                  semanticsLabel: 'path'),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'Info',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 14,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.4285714285714286),
+                                ),
+                                Text(
+                                  'About Restaurants, Offers and Opening Hours',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(107, 107, 107, 1),
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 12,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.3333333333333333),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: SvgPicture.asset(
+                              'lib/assets/icons/forward.svg',
+                              semanticsLabel: 'path'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

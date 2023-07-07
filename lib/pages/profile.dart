@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -80,9 +81,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
       body: ListView(
         children: [
           Padding(
@@ -94,18 +92,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 60.0,
                   backgroundImage: AssetImage('lib/assets/images/restaurant.png'),
                 ),
-                SizedBox(height: 20.0),
-                Text(
+                const SizedBox(height: 20.0),
+                const Text(
                   'Profile Information',
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 TextFormField(
                   controller: _firstNameController,
                   enabled: _isEditing,
-                  decoration: InputDecoration(labelText: 'First Name'),
+                  decoration: const InputDecoration(labelText: 'First Name'),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 TextFormField(
                   controller: _lastNameController,
                   enabled: _isEditing,
@@ -129,22 +127,44 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            )
+                        ),
                         onPressed: _saveChanges,
                         child: Text('Save'),
                       ),
                       SizedBox(width: 10.0),
                       TextButton(
+                        style: TextButton.styleFrom(
+                            primary: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            )
+                        ),
                         onPressed: _cancelChanges,
                         child: Text('Cancel'),
                       ),
                     ],
                   )
                 else
-                  ElevatedButton(
-                    onPressed: _toggleEdit,
-                    child: Text('Edit Profile'),
+                  SizedBox(
+                    height: 40,
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          )
+                      ),
+                      onPressed: _toggleEdit,
+                      child: Text('Edit Profile'),
+                    ),
                   ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Divider(),
                 SizedBox(height: 20.0),
                 Text(
@@ -176,9 +196,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           ElevatedButton(
                             onPressed: _savePassword,
                             child: Text('Save'),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                )
+                            ),
                           ),
                           SizedBox(width: 10.0),
                           TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                )
+                            ),
                             onPressed: _cancelPasswordChange,
                             child: Text('Cancel'),
                           ),
@@ -187,10 +219,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   )
                 else
-                  ElevatedButton(
-                    onPressed: _toggleChangePassword,
-                    child: Text('Change Password'),
+                  SizedBox(
+                    height: 40,
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          )
+                      ),
+                      onPressed: _toggleChangePassword,
+                      child: Text('Change Password'),
+                    ),
                   ),
+
               ],
             ),
           ),

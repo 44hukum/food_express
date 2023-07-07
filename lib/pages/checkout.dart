@@ -703,7 +703,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                           elevation: 3,
                           builder: (context) {
                             return SizedBox(
-                              height: 200,
+                              height: 280,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -730,7 +730,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                               child: Text('Subtotal', textAlign: TextAlign.left, style: TextStyle(
                                                                   color: Color.fromRGBO(0, 0, 0, 1),
                                                                   fontFamily: 'SF Pro Display',
-                                                                  fontSize: 14,
+                                                                  fontSize: 18,
                                                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                                                   fontWeight: FontWeight.normal,
                                                                   height: 1.4285714285714286
@@ -770,7 +770,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                               child: Text('Delivery Fees', textAlign: TextAlign.left, style: TextStyle(
                                                                   color: Color.fromRGBO(0, 0, 0, 1),
                                                                   fontFamily: 'SF Pro Display',
-                                                                  fontSize: 14,
+                                                                  fontSize: 18,
                                                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                                                   fontWeight: FontWeight.normal,
                                                                   height: 1.4285714285714286
@@ -806,7 +806,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                               child: Text('Total', textAlign: TextAlign.left, style: TextStyle(
                                                                   color: Color.fromRGBO(0, 0, 0, 1),
                                                                   fontFamily: 'SF Pro Display',
-                                                                  fontSize: 16,
+                                                                  fontSize: 18,
                                                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                                                   fontWeight: FontWeight.normal,
                                                                   height: 1.5
