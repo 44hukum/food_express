@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class MyCheckoutCart extends StatefulWidget {
 class _MyCheckoutCartState extends State<MyCheckoutCart> {
   String? delivery;
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -99,14 +100,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           bottom: 9,
@@ -132,14 +130,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           top: 0,
@@ -215,14 +210,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           bottom: 9,
@@ -248,14 +240,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           top: 0,
@@ -331,14 +320,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           bottom: 9,
@@ -364,14 +350,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           top: 0,
@@ -447,14 +430,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           bottom: 9,
@@ -480,14 +460,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                                  const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.elliptical(
-                                                            24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           top: 0,
@@ -563,14 +540,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                              const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.elliptical(
-                                                        24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           bottom: 9,
@@ -596,14 +570,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           child: Container(
                                               width: 24,
                                               height: 24,
-                                              decoration:
-                                              const BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color.fromRGBO(
                                                     236, 219, 186, 1),
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.elliptical(
-                                                        24, 24)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(24, 24)),
                                               ))),
                                       const Positioned(
                                           top: 0,
@@ -618,7 +589,6 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                     )
                   ],
                 ),
-
               ],
             ),
           ),
@@ -641,105 +611,383 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Delivery Details',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 20,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.bold,
+                      height: 1.5555555555555556),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    //  Delivery Address
+                    DottedBorder(
+                      borderType: BorderType.RRect,
+                      color: Colors.orange,
+                      radius: const Radius.circular(20),
+                      child: ClipRRect(
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(12)),
+                        child: Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text('Name:  Ashish Tamang'),
+                                  Text('Contact: 9845701618'),
+                                  Text('Naikap Tinthana Kathmandu')
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+
+
+                  ],
+                ),
+
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Payment',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 20,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.bold,
+                      height: 1.5555555555555556),
+                ),
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Cash on delivery"),
+                    Radio(
+                      value: "cash",
+                      groupValue: delivery,
+                      onChanged: (value) {
+                        setState(() {
+                          delivery = value.toString();
+                        });
+
+                        showModalBottomSheet<void>(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(24),
+                              topRight: Radius.circular(24),
+                            ),
+                          ),
+                          context: context,
+                          elevation: 3,
+                          builder: (context) {
+                            return SizedBox(
+                              height: 200,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+
+                                children: [
+                                  // Figma Flutter Generator PricesWidget - GROUP
+                                  SizedBox(
+                                      width: 343,
+                                      height: 88,
+                                      child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                                top: 0,
+                                                left: 0,
+                                                child: Container(
+                                                    width: 343,
+                                                    height: 20,
+
+                                                    child: Stack(
+                                                        children: const <Widget>[
+                                                          Positioned(
+                                                              top: 0,
+                                                              left: 0,
+                                                              child: Text('Subtotal', textAlign: TextAlign.left, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 14,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.4285714285714286
+                                                              ),)
+                                                          ),
+
+                                                          Positioned(
+                                                              top: 0,
+                                                              left: 280,
+                                                              child: Text('Rs.150', textAlign: TextAlign.right, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 14,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.4285714285714286
+                                                              ),)
+                                                          ),
+                                                        ]
+                                                    )
+                                                )
+                                            ),
+
+
+                                            Positioned(
+                                                top: 32,
+                                                left: 0,
+                                                child: Container(
+                                                    width: 343,
+                                                    height: 20,
+
+                                                    child: Stack(
+                                                        children: const <Widget>[
+                                                          Positioned(
+                                                              top: 0,
+                                                              left: 0,
+                                                              child: Text('Delivery Fees', textAlign: TextAlign.left, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 14,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.4285714285714286
+                                                              ),)
+                                                          ),Positioned(
+                                                              top: 0,
+                                                              left: 280,
+                                                              child: Text('Rs.50', textAlign: TextAlign.right, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 14,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.4285714285714286
+                                                              ),)
+                                                          ),
+                                                        ]
+                                                    )
+                                                )
+                                            ),
+
+                                            Positioned(
+                                                top: 64,
+                                                left: 0,
+                                                child: Container(
+                                                    width: 343,
+                                                    height: 24,
+                                                    child: Stack(
+                                                        children: const <Widget>[
+                                                          Positioned(
+                                                              top: 0,
+                                                              left: 0,
+                                                              child: Text('Total', textAlign: TextAlign.left, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 16,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.5
+                                                              ),)
+                                                          ),Positioned(
+                                                              top: 0,
+                                                              left: 280,
+                                                              child: Text('Rs.200', textAlign: TextAlign.right, style: TextStyle(
+                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                  fontFamily: 'SF Pro Display',
+                                                                  fontSize: 16,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1.5
+                                                              ),)
+                                                          ),
+                                                        ]
+                                                    )
+                                                )
+                                            ),
+                                          ]
+                                      )
+                                  ),
+                                  Container(
+                                      width: 280,
+                                      height: 48,
+                                      alignment: Alignment.center,
+                                      decoration: const BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(32),
+                                          topRight: Radius.circular(32),
+                                          bottomLeft: Radius.circular(32),
+                                          bottomRight: Radius.circular(32),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(10, 20, 16, 0.20149999856948853),
+                                            offset: Offset(8.531706009296642e-16,13.933333396911621),
+                                            blurRadius: 27.866666793823242
+                                        )],
+                                        gradient : LinearGradient(
+                                            begin: Alignment(6.123234262925839e-17,1),
+                                            end: Alignment(-1,6.123234262925839e-17),
+                                            colors: [Color.fromRGBO(57, 113, 89, 1),Color.fromRGBO(44, 88, 69, 1)]
+                                        ),
+                                      ),
+                                      child: const Text('Place Order', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                          fontFamily: 'SF Pro Display',
+                                          fontSize: 18,
+                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1
+                                      ),
+                                      )),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+
+                      },
+                    ),
+                  ],
+                ),
+
+
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Online Payment"),
+                    Radio(
+                      value: "online",
+                      groupValue: delivery,
+                      onChanged: (value) {
+                        setState(() {
+                          delivery = value.toString();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
 
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                //  Delivery Address
-                Wrap(
-                  children: [
-                    Chip(
-                      avatar: CircleAvatar(
-                        backgroundColor: Colors.grey.shade800,
-                        child: const Text('DA'),
-                      ),
-                      label: const Text('Imadol Lalitpur'),
-                    ),
-                  ],
+                const Text(
+                  'No Payment method has been added yet. ',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Color.fromRGBO(107, 107, 107, 1),
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 12,
+                      letterSpacing:
+                      0 /*percentages not used in flutter. defaulting to zero*/,
+                      fontWeight: FontWeight.normal,
+                      height: 1.3333333333333333),
                 ),
-                const Text('No Payment method has been added yet. ', textAlign: TextAlign.left, style: TextStyle(
-                    color: Color.fromRGBO(107, 107, 107, 1),
-                    fontFamily: 'SF Pro Display',
-                    fontSize: 12,
-                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                    fontWeight: FontWeight.normal,
-                    height: 1.3333333333333333
-                ),),
                 const SizedBox(height: 10),
-                GestureDetector(onTap: (){
-                  showModalBottomSheet<void>(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                      ),
-                    ),
-                    context: context,
-                    elevation: 3,
-                    builder: (context) {
-                      return SizedBox(
-                        height: 250,
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Payment',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 18,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.5555555555555556),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("Cash on delivery"),
-                                  Radio(
-                                    value: "cash",
-                                    groupValue: delivery,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        delivery = value.toString();
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("Online Payment"),
-                                  Radio(
-                                    value: "online",
-                                    groupValue: delivery,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        delivery = value.toString();
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
                           ),
                         ),
+                        context: context,
+                        elevation: 3,
+                        builder: (context) {
+                          return SizedBox(
+                            height: 250,
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Payment',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontFamily: 'SF Pro Display',
+                                          fontSize: 18,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.5555555555555556),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text("Cash on delivery"),
+                                      Radio(
+                                        value: "cash",
+                                        groupValue: delivery,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            delivery = value.toString();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text("Online Payment"),
+                                      Radio(
+                                        value: "online",
+                                        groupValue: delivery,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            delivery = value.toString();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                    child: const Text('Proceed to Payment', style: TextStyle(
-                      color: Colors.green,
-                      fontSize: 18,
-                        fontWeight: FontWeight.bold
-                    ),))
+                    child: const Text(
+                      'Add Payment',
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ))
               ],
             ),
           )

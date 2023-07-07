@@ -154,15 +154,15 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                           ),
                         ),
                         SizedBox(
-                            width: 50,
-                            height: 22,
+                            width: 140,
+                            height: 24,
                             child: Stack(children: <Widget>[
                               Positioned(
                                   top: 0,
                                   left: 0,
                                   child: Container(
-                                      width: 50,
-                                      height: 22,
+                                      width: 140,
+                                      height: 24,
                                       decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(11),
@@ -170,29 +170,22 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                           bottomLeft: Radius.circular(11),
                                           bottomRight: Radius.circular(11),
                                         ),
-                                        color:
-                                        Color.fromRGBO(236, 219, 186, 1),
+                                        color: Colors.red,
                                       ))),
                               const Positioned(
-                                  top: 0,
-                                  left: 24,
+                                  top: 2,
+                                  left: 10,
                                   child: Text(
-                                    '5.0',
+                                    '10:00 AM - 9:00 PM',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        color: Color.fromRGBO(52, 103, 81, 1),
+                                        color: Colors.white,
                                         fontFamily: 'SF Pro Display',
                                         fontSize: 14,
                                         letterSpacing: 0,
                                         fontWeight: FontWeight.normal,
                                         height: 1.3333333333333333),
                                   )),
-                              Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  child: SvgPicture.asset(
-                                      'lib/assets/icons/start.svg',
-                                      semanticsLabel: 'rating')),
                             ])),
                       ],
                     ),
