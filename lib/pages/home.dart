@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/model/restaurant.dart';
 import 'package:foodcommerce/pages/profile.dart';
 import 'package:foodcommerce/pages/search.dart';
 import 'package:foodcommerce/screen/home.dart';
@@ -14,6 +16,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  late Future<List<Restaurant>> restaurant;
+
+
 
   final List<Widget> _widgetOptions = <Widget>[
     const RestaurantHome(),
@@ -31,7 +36,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
 
     return PageView(
       controller: _pageController,

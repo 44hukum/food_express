@@ -243,7 +243,8 @@ class _SignupPageState extends State<SignupPage> {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  // Navigate to the login page
+                  Navigator.pushNamed(context, 'login');
+
                 },
                 child: Text(
                   'Already have an account? Login',

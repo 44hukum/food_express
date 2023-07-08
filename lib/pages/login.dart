@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  prefixIcon: Icon(Icons.email, color: Colors.white),
-                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: const Icon(Icons.email, color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.circular(10.0),
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  // Navigate to the registration page
+                    Navigator.pushNamed(context, 'signup');
                 },
                 child: Text(
                   'Don\'t have an account? Sign up',

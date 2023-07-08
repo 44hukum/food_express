@@ -1,5 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.foodcommerce">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.foodcommerce">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="foodcommerce"
         android:name="${applicationName}"

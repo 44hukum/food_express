@@ -640,18 +640,17 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                       child: ClipRRect(
                         borderRadius:
                         const BorderRadius.all(Radius.circular(12)),
-                        child: Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text('Name:  Ashish Tamang'),
-                                  Text('Contact: 9845701618'),
-                                  Text('Naikap Tinthana Kathmandu')
-                                ],
-                              ),
-                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('Name:  Ashish Tamang'),
+                              Text('Contact: 9845701618'),
+                              Text('Naikap Tinthana Kathmandu')
+                            ],
+                          ),
+                        ),
                       ),
                     ),
 

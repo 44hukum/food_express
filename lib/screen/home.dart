@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodcommerce/model/restaurant.dart';
+import 'package:foodcommerce/screen/restaurant_info.dart';
 import 'package:foodcommerce/widgets/products.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RestaurantHome extends StatefulWidget {
   const RestaurantHome({Key? key}) : super(key: key);
@@ -11,6 +15,25 @@ class RestaurantHome extends StatefulWidget {
 }
 
 class _RestaurantHomeState extends State<RestaurantHome> {
+ late Future futureRestaurant;
+
+  Future getRestaurantList() async {
+    final url = Uri.http('10.0.2.2:8000', 'api/restaurant');
+    var response = await http.get(url);
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    List<Restaurant> restaurant = decodedResponse['results'].map<Restaurant>((json){
+      return Restaurant.fromJson(json);
+    }).toList();
+    return restaurant[0].toJson();
+  }
+
+ @override
+ void initState() {
+    super.initState();
+    futureRestaurant = getRestaurantList();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -138,18 +161,30 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
-                          child: Text(
-                            'Food Express Online Delivery',
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontFamily: 'SF Pro Display',
-                                fontSize: 18,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.bold,
-                                height: 1.3333333333333333),
+                        Expanded(
+                          child: FutureBuilder(
+                            future: futureRestaurant,
+                            builder: (context, snapshot){
+                              if(snapshot.hasData){
+                                return  Text(
+                                  snapshot.data['rname'],
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontFamily: 'SF Pro Display',
+                                      fontSize: 18,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.3333333333333333),
+                                );
+                              }else{
+                                return const CircularProgressIndicator();
+
+                              }
+
+                              // By default, show a loading spinner.
+                            },
                           ),
                         ),
                         SizedBox(
