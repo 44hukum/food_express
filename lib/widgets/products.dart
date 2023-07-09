@@ -3,7 +3,11 @@ import 'package:foodcommerce/services/cart.dart';
 import 'package:provider/provider.dart';
 
 class Products extends StatefulWidget {
-  const Products({Key? key}) : super(key: key);
+  final String logo;
+  final String product_name;
+  final String price;
+  final String description;
+  const Products({Key? key, required this.logo, required this.product_name, required this.price, required this.description}) : super(key: key);
 
   @override
   State<Products> createState() => _ProductsState();
@@ -31,21 +35,21 @@ class _ProductsState extends State<Products> {
               Container(
                   width: 100,
                   height: 100,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
-                        image:
-                            AssetImage('lib/assets/images/restaurant_momo.png'),
+                        image: NetworkImage(widget.logo),
                         fit: BoxFit.cover),
                   )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
-                        'Chicken Momos',
+                        widget.product_name,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontFamily: 'SF Pro Display',
                             fontSize: 20,
@@ -53,13 +57,13 @@ class _ProductsState extends State<Products> {
                             fontWeight: FontWeight.normal,
                             height: 1.5),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 70,
                       ),
                       Text(
-                        'Rs. 200',
+                       'Rs. ${widget.price}',
                         textAlign: TextAlign.end,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontFamily: 'SF Pro Display',
                             fontSize: 20,
@@ -69,14 +73,14 @@ class _ProductsState extends State<Products> {
                       ),
                     ],
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 300,
                     child: Text(
-                      'Indulge in the delectable flavors of our Chicken Momos, a popular dish from the Himalayan region. These mouthwatering dumplings feature a succulent filling of finely minced chicken, mixed with aromatic spices and herbs.',
+                      widget.description,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color.fromRGBO(107, 107, 107, 1),
                           fontFamily: 'SF Pro Display',
                           fontSize: 10,

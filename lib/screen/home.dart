@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodcommerce/model/products.dart';
 import 'package:foodcommerce/model/restaurant.dart';
-import 'package:foodcommerce/screen/restaurant_info.dart';
 import 'package:foodcommerce/widgets/products.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,24 +15,37 @@ class RestaurantHome extends StatefulWidget {
 }
 
 class _RestaurantHomeState extends State<RestaurantHome> {
- late Future futureRestaurant;
+  late Future futureRestaurant;
+  late Future futureRestaurantMenu;
 
   Future getRestaurantList() async {
     final url = Uri.http('10.0.2.2:8000', 'api/restaurant');
     var response = await http.get(url);
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    List<Restaurant> restaurant = decodedResponse['results'].map<Restaurant>((json){
+    List<Restaurant> restaurant =
+        decodedResponse['results'].map<Restaurant>((json) {
       return Restaurant.fromJson(json);
     }).toList();
     return restaurant[0].toJson();
   }
 
- @override
- void initState() {
-    super.initState();
-    futureRestaurant = getRestaurantList();
+  Future getRestaurantProductList() async {
+    final url = Uri.http('10.0.2.2:8000', 'api/products');
+    var response = await http.get(url);
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    List<ProductModel> products =
+        decodedResponse['results'].map<ProductModel>((json) {
+      return ProductModel.fromJson(json);
+    }).toList();
+    return List.generate(products.length, (index) => products[index].toJson());
   }
 
+  @override
+  void initState() {
+    super.initState();
+    futureRestaurant = getRestaurantList();
+    futureRestaurantMenu = getRestaurantProductList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +127,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                       fontFamily: 'SF Pro Display',
                                       fontSize: 12,
                                       letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                          0 /*percentages not used in flutter. defaulting to zero*/,
                                       fontWeight: FontWeight.normal,
                                       height: 1.3333333333333333),
                                 )),
@@ -127,15 +140,14 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                     decoration: const BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Color.fromRGBO(0, 51, 17,
-                                                0.47450000047683716),
+                                            color: Color.fromRGBO(
+                                                0, 51, 17, 0.47450000047683716),
                                             offset: Offset(0.1484513133764267,
                                                 1.0562859773635864),
                                             blurRadius: 2.133333444595337)
                                       ],
                                       gradient: LinearGradient(
-                                          begin: Alignment(
-                                              0.13917310535907745,
+                                          begin: Alignment(0.13917310535907745,
                                               0.9902680516242981),
                                           end: Alignment(-0.9902680516242981,
                                               0.13917310535907745),
@@ -164,9 +176,9 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                         Expanded(
                           child: FutureBuilder(
                             future: futureRestaurant,
-                            builder: (context, snapshot){
-                              if(snapshot.hasData){
-                                return  Text(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
                                   snapshot.data['rname'],
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
@@ -178,9 +190,8 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                       fontWeight: FontWeight.bold,
                                       height: 1.3333333333333333),
                                 );
-                              }else{
+                              } else {
                                 return const CircularProgressIndicator();
-
                               }
 
                               // By default, show a loading spinner.
@@ -236,24 +247,33 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                                width: 120,
+                                width: 300,
                                 height: 24,
                                 child: Stack(children: <Widget>[
-                                  const Positioned(
-                                      top: 4,
-                                      left: 28,
-                                      child: Text(
-                                        'Kritipur, Lalitpur',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            color:
-                                            Color.fromRGBO(22, 22, 22, 1),
-                                            fontFamily: 'SF Pro Display',
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.normal,
-                                            height: 1.3333333333333333),
-                                      )),
+                                  FutureBuilder(
+                                    future: futureRestaurant,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Positioned(
+                                            top: 4,
+                                            left: 28,
+                                            child: Text(
+                                              snapshot.data['raddress'],
+                                              textAlign: TextAlign.right,
+                                              style: const TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      22, 22, 22, 1),
+                                                  fontFamily: 'SF Pro Display',
+                                                  fontSize: 12,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.normal,
+                                                  height: 1.3333333333333333),
+                                            ));
+                                      } else {
+                                        return const CircularProgressIndicator();
+                                      }
+                                    },
+                                  ),
                                   Positioned(
                                       top: 0,
                                       left: 0,
@@ -264,53 +284,64 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                           ],
                         ),
                         const SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                  text: TextSpan(children: [
-                                    WidgetSpan(
-                                      child: SvgPicture.asset(
-                                          'lib/assets/icons/time.svg',
-                                          semanticsLabel: 'path'),
+                        FutureBuilder(
+                          future: futureRestaurant,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      WidgetSpan(
+                                        child: SvgPicture.asset(
+                                            'lib/assets/icons/time.svg',
+                                            semanticsLabel: 'path'),
+                                      ),
+                                      const TextSpan(text: '  '),
+                                      const TextSpan(
+                                          text: '15-20 min',
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                    ])),
+                                    SvgPicture.asset(
+                                        'lib/assets/icons/restaurant_vertical_line_1.svg',
+                                        semanticsLabel: 'path'),
+                                    Text(
+                                      'Rs. ${snapshot.data['rdelivery_fee']}- Delivery Fee',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontFamily: 'SF Pro Display',
+                                          fontSize: 14,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.3333333333333333),
                                     ),
-                                    const TextSpan(text: '  '),
-                                    const TextSpan(
-                                        text: '15-20 min',
-                                        style: TextStyle(color: Colors.black)),
-                                  ])),
-                              SvgPicture.asset(
-                                  'lib/assets/icons/restaurant_vertical_line_1.svg',
-                                  semanticsLabel: 'path'),
-                              const Text(
-                                'Rs. 50 - Delivery Fee',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontFamily: 'SF Pro Display',
-                                    fontSize: 14,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.3333333333333333),
-                              ),
-                              SvgPicture.asset(
-                                  'lib/assets/icons/restaurant_vertical_line_1.svg',
-                                  semanticsLabel: 'path'),
-                              const Text(
-                                '5 km away',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontFamily: 'SF Pro Display',
-                                    fontSize: 14,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                    height: 1.3333333333333333),
-                              )
-                            ],
-                          ),
+                                    SvgPicture.asset(
+                                        'lib/assets/icons/restaurant_vertical_line_1.svg',
+                                        semanticsLabel: 'path'),
+                                    const Text(
+                                      '5 km away',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontFamily: 'SF Pro Display',
+                                          fontSize: 14,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.3333333333333333),
+                                    )
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          },
                         )
                       ],
                     ),
@@ -319,9 +350,9 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                     height: 10,
                   ),
                   GestureDetector(
-                   onTap: (){
-                     Navigator.pushNamed(context, 'info');
-                   },
+                    onTap: () {
+                      Navigator.pushNamed(context, 'info');
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -404,7 +435,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                       ),
                       child: const TabBar(
                           splashBorderRadius:
-                          BorderRadius.all(Radius.circular(11)),
+                              BorderRadius.all(Radius.circular(11)),
                           padding: EdgeInsets.all(6),
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.white,
@@ -420,37 +451,37 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                           tabs: [
                             Tab(
                                 child: Text(
-                                  'Breakfast',
-                                  style: TextStyle(
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 18,
-                                      letterSpacing:
+                              'Breakfast',
+                              style: TextStyle(
+                                  fontFamily: 'SF Pro Display',
+                                  fontSize: 18,
+                                  letterSpacing:
                                       0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1),
-                                )),
+                                  fontWeight: FontWeight.normal,
+                                  height: 1),
+                            )),
                             Tab(
                                 child: Text(
-                                  'Lunch',
-                                  style: TextStyle(
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 18,
-                                      letterSpacing:
+                              'Lunch',
+                              style: TextStyle(
+                                  fontFamily: 'SF Pro Display',
+                                  fontSize: 18,
+                                  letterSpacing:
                                       0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1),
-                                )),
+                                  fontWeight: FontWeight.normal,
+                                  height: 1),
+                            )),
                             Tab(
                                 child: Text(
-                                  'Dinner',
-                                  style: TextStyle(
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 18,
-                                      letterSpacing:
+                              'Dinner',
+                              style: TextStyle(
+                                  fontFamily: 'SF Pro Display',
+                                  fontSize: 18,
+                                  letterSpacing:
                                       0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1),
-                                )),
+                                  fontWeight: FontWeight.normal,
+                                  height: 1),
+                            )),
                           ]),
                     ),
                   ],
@@ -462,50 +493,34 @@ class _RestaurantHomeState extends State<RestaurantHome> {
         body: TabBarView(children: [
           ListView(
             padding: EdgeInsets.all(0),
-            children: const [
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-
+            children: [
+              FutureBuilder(
+                  future: futureRestaurantMenu,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                          children:
+                              List.generate(snapshot.data.length, (index) {
+                        return Products(
+                            logo: snapshot.data[index]['pimage'],
+                            product_name: snapshot.data[index]['pname'],
+                            price: snapshot.data[index]['pprice'],
+                            description: snapshot.data[index]['pdescription']);
+                      }));
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }),
             ],
           ),
           ListView(
             padding: EdgeInsets.all(0),
-            children: const [
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-
-            ],
+            children: const [],
           ),
           ListView(
             padding: EdgeInsets.all(0),
-            children: const [
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-              Products(),
-
-            ],
+            children: const [],
           ),
-
         ]),
       ),
     );

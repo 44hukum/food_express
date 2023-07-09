@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/model/products.dart';
 import 'package:foodcommerce/model/restaurant.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -13,9 +14,6 @@ class RestaurantInfoPage extends StatefulWidget {
 }
 
 class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
-
-
-
 
   final String openingHours =
       'Monday - Friday: 9:00 AM - 9:00 PM\nSaturday - Sunday: 10:00 AM - 8:00 PM';
@@ -31,6 +29,8 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
     }).toList();
     return restaurant[0].toJson();
   }
+
+
 
   @override
   void initState() {
