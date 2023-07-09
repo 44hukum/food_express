@@ -498,15 +498,19 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return Column(
-                          children:
-                              List.generate(snapshot.data.length, (index) {
-                        return Products(
-                            logo: snapshot.data[index]['pimage'],
-                            product_name: snapshot.data[index]['pname'],
-                            price: snapshot.data[index]['pprice'],
-                            description: snapshot.data[index]['pdescription']);
-                      }));
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                            children:
+                                List.generate(snapshot.data.length, (index) {
+                          return Products(
+                            public_id: snapshot.data[index]['pid'],
+                              logo: snapshot.data[index]['pimage'],
+                              product_name: snapshot.data[index]['pname'],
+                              price: snapshot.data[index]['pprice'],
+                              description: snapshot.data[index]['pdescription']);
+                        })),
+                      );
                     } else {
                       return CircularProgressIndicator();
                     }

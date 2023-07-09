@@ -4,10 +4,17 @@ import 'package:provider/provider.dart';
 
 class Products extends StatefulWidget {
   final String logo;
+  final String public_id;
   final String product_name;
   final String price;
   final String description;
-  const Products({Key? key, required this.logo, required this.product_name, required this.price, required this.description}) : super(key: key);
+  const Products(
+      {Key? key,
+      required this.logo,
+      required this.product_name,
+      required this.price,
+      required this.description, required this.public_id})
+      : super(key: key);
 
   @override
   State<Products> createState() => _ProductsState();
@@ -16,6 +23,16 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   bool addToCart = false;
   int quantity = 0;
+  late SqliteService _sqliteService;
+
+  void addItemToCart(Orders order) {
+    //add item
+    _sqliteService = SqliteService();
+    _sqliteService.initializeDB().whenComplete(() async {
+      final data = await _sqliteService.createItem(order);
+      //Successfully added
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +54,13 @@ class _ProductsState extends State<Products> {
                   height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(widget.logo),
-                        fit: BoxFit.cover),
+                        image: NetworkImage(widget.logo), fit: BoxFit.cover),
                   )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
                         widget.product_name,
@@ -58,10 +74,10 @@ class _ProductsState extends State<Products> {
                             height: 1.5),
                       ),
                       const SizedBox(
-                        width: 70,
+                        width: 60,
                       ),
                       Text(
-                       'Rs. ${widget.price}',
+                        'Rs. ${widget.price}',
                         textAlign: TextAlign.end,
                         style: const TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
@@ -106,14 +122,12 @@ class _ProductsState extends State<Products> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              if(quantity > 0 ){
+                              if (quantity > 0) {
                                 quantity = quantity - 1;
-                              }else{
+                              } else {
                                 quantity = 0;
                                 cartProvider.removeAll();
                               }
-
-
                             });
                           },
                           child: SizedBox(
@@ -175,14 +189,17 @@ class _ProductsState extends State<Products> {
                   : Container(),
               addToCart == true
                   ? GestureDetector(
-                    onTap: (){
-                      if(quantity > 0){
-                        cartProvider.add('$quantity');
-                      }else{
-                        print("At least 1 item");
-                      }
-                    },
-                    child: Container(
+                      onTap: () {
+                        if (quantity > 0) {
+                          cartProvider.add('$quantity');
+                          Orders newOrder = Orders(widget.public_id, quantity, double.parse(widget.price));
+                          addItemToCart(newOrder);
+                          print('added');
+                        } else {
+                          print("At least 1 item");
+                        }
+                      },
+                      child: Container(
                         width: 100,
                         height: 30,
                         alignment: Alignment.center,
@@ -207,7 +224,7 @@ class _ProductsState extends State<Products> {
                               height: 1.4285714285714286),
                         ),
                       ),
-                  )
+                    )
                   : Container(),
             ],
           ),

@@ -41,6 +41,8 @@ dependencies:
   dotted_border: ^2.0.0+3
   url_launcher: ^6.1.11
   http: ^0.13.6
+  sqflite: ^2.2.8+4
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:
