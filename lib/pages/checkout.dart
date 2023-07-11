@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/services/cart.dart';
 
 class MyCheckoutCart extends StatefulWidget {
   const MyCheckoutCart({Key? key}) : super(key: key);
@@ -10,6 +11,135 @@ class MyCheckoutCart extends StatefulWidget {
 }
 
 class _MyCheckoutCartState extends State<MyCheckoutCart> {
+
+  late SqliteService _sqliteService;
+  late var totalBill;
+
+  List<Widget> _rowWidget = [];
+
+  Future<void> _fetchData() async {
+    _sqliteService = SqliteService();
+    await _sqliteService.initializeDB();
+    final data = await _sqliteService.getItems();
+    final bill = await _sqliteService.totalBill();
+    _rowWidget = data.map((element) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage('${element.image}'),
+                    fit: BoxFit.fitWidth),
+              )),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    element.item,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: 'SF Pro Display',
+                        fontSize: 20,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.normal,
+                        height: 1.5),
+                  ),
+                  const SizedBox(
+                    width: 70,
+                  ),
+                  Text(
+                    '${element.price}',
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: 'SF Pro Display',
+                        fontSize: 20,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.normal,
+                        height: 1.5),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              SizedBox(
+                width: 100,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Stack(children: <Widget>[
+                            Positioned(
+                                top: 0,
+                                left: 0,
+                                child: Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(236, 219, 186, 1),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(24, 24)),
+                                    ))),
+                            const Positioned(
+                                bottom: 9,
+                                left: 0,
+                                child: Icon(Icons.minimize)),
+                          ])),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      '${element.quantity}',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Stack(children: <Widget>[
+                            Positioned(
+                                top: 0,
+                                left: 0,
+                                child: Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(236, 219, 186, 1),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(24, 24)),
+                                    ))),
+                            const Positioned(
+                                top: 0, left: 0, child: Icon(Icons.add)),
+                          ])),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )
+        ],
+      );
+    }).toList();
+
+    setState(() {
+      totalBill = bill;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
   String? delivery;
 
   @override
@@ -22,585 +152,33 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
       ),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Your Items',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 18,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.bold,
-                      height: 1.5555555555555556),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/restaurant_momo.png'),
-                              fit: BoxFit.cover),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Chicken Momos',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              'Rs. 200',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          bottom: 9,
-                                          left: 0,
-                                          child: Icon(Icons.minimize)),
-                                    ])),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                '1',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Icon(Icons.add)),
-                                    ])),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/restaurant_momo.png'),
-                              fit: BoxFit.cover),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Chicken Momos',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              'Rs. 200',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          bottom: 9,
-                                          left: 0,
-                                          child: Icon(Icons.minimize)),
-                                    ])),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                '1',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Icon(Icons.add)),
-                                    ])),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/restaurant_momo.png'),
-                              fit: BoxFit.cover),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Chicken Momos',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              'Rs. 200',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          bottom: 9,
-                                          left: 0,
-                                          child: Icon(Icons.minimize)),
-                                    ])),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                '1',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Icon(Icons.add)),
-                                    ])),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/restaurant_momo.png'),
-                              fit: BoxFit.cover),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Chicken Momos',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              'Rs. 200',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          bottom: 9,
-                                          left: 0,
-                                          child: Icon(Icons.minimize)),
-                                    ])),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                '1',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Icon(Icons.add)),
-                                    ])),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/restaurant_momo.png'),
-                              fit: BoxFit.cover),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Chicken Momos',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              'Rs. 200',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 20,
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          bottom: 9,
-                                          left: 0,
-                                          child: Icon(Icons.minimize)),
-                                    ])),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                '1',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {},
-                                child: SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    236, 219, 186, 1),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(24, 24)),
-                                              ))),
-                                      const Positioned(
-                                          top: 0,
-                                          left: 0,
-                                          child: Icon(Icons.add)),
-                                    ])),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ],
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Your Items',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                  fontFamily: 'SF Pro Display',
+                  fontSize: 18,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5555555555555556),
             ),
           ),
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _rowWidget),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
+              children: [
                 Text(
-                  'Total: 800',
+                  'Rs. ${totalBill}',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color.fromRGBO(0, 0, 0, 1),
                       fontFamily: 'SF Pro Display',
                       fontSize: 18,
@@ -639,7 +217,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                       radius: const Radius.circular(20),
                       child: ClipRRect(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(12)),
+                            const BorderRadius.all(Radius.circular(12)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -653,15 +231,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                         ),
                       ),
                     ),
-
-
                   ],
                 ),
-
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -679,8 +253,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                       height: 1.5555555555555556),
                 ),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Cash on delivery"),
                     Radio(
@@ -704,177 +277,227 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                             return SizedBox(
                               height: 280,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-
                                 children: [
                                   // Figma Flutter Generator PricesWidget - GROUP
                                   SizedBox(
                                       width: 343,
                                       height: 88,
-                                      child: Stack(
-                                          children: <Widget>[
-                                            Positioned(
-                                                top: 0,
-                                                left: 0,
-                                                child: Container(
-                                                    width: 343,
-                                                    height: 20,
-
-                                                    child: Stack(
-                                                        children: const <Widget>[
-                                                          Positioned(
-                                                              top: 0,
-                                                              left: 0,
-                                                              child: Text('Subtotal', textAlign: TextAlign.left, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 18,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.4285714285714286
-                                                              ),)
-                                                          ),
-
-                                                          Positioned(
-                                                              top: 0,
-                                                              left: 280,
-                                                              child: Text('Rs.150', textAlign: TextAlign.right, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 14,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.4285714285714286
-                                                              ),)
-                                                          ),
-                                                        ]
-                                                    )
-                                                )
-                                            ),
-
-
-                                            Positioned(
-                                                top: 32,
-                                                left: 0,
-                                                child: Container(
-                                                    width: 343,
-                                                    height: 20,
-
-                                                    child: Stack(
-                                                        children: const <Widget>[
-                                                          Positioned(
-                                                              top: 0,
-                                                              left: 0,
-                                                              child: Text('Delivery Fees', textAlign: TextAlign.left, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 18,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.4285714285714286
-                                                              ),)
-                                                          ),Positioned(
-                                                              top: 0,
-                                                              left: 280,
-                                                              child: Text('Rs.50', textAlign: TextAlign.right, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 14,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.4285714285714286
-                                                              ),)
-                                                          ),
-                                                        ]
-                                                    )
-                                                )
-                                            ),
-
-                                            Positioned(
-                                                top: 64,
-                                                left: 0,
-                                                child: Container(
-                                                    width: 343,
-                                                    height: 24,
-                                                    child: Stack(
-                                                        children: const <Widget>[
-                                                          Positioned(
-                                                              top: 0,
-                                                              left: 0,
-                                                              child: Text('Total', textAlign: TextAlign.left, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 18,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.5
-                                                              ),)
-                                                          ),Positioned(
-                                                              top: 0,
-                                                              left: 280,
-                                                              child: Text('Rs.200', textAlign: TextAlign.right, style: TextStyle(
-                                                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                                                  fontFamily: 'SF Pro Display',
-                                                                  fontSize: 16,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  height: 1.5
-                                                              ),)
-                                                          ),
-                                                        ]
-                                                    )
-                                                )
-                                            ),
-                                          ]
-                                      )
-                                  ),
+                                      child: Stack(children: <Widget>[
+                                        Positioned(
+                                            top: 0,
+                                            left: 0,
+                                            child: Container(
+                                                width: 343,
+                                                height: 20,
+                                                child: Stack(children: const <
+                                                    Widget>[
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 0,
+                                                      child: Text(
+                                                        'Subtotal',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 18,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height:
+                                                                1.4285714285714286),
+                                                      )),
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 280,
+                                                      child: Text(
+                                                        'Rs.150',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 14,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height:
+                                                                1.4285714285714286),
+                                                      )),
+                                                ]))),
+                                        Positioned(
+                                            top: 32,
+                                            left: 0,
+                                            child: Container(
+                                                width: 343,
+                                                height: 20,
+                                                child: Stack(children: const <
+                                                    Widget>[
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 0,
+                                                      child: Text(
+                                                        'Delivery Fees',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 18,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height:
+                                                                1.4285714285714286),
+                                                      )),
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 280,
+                                                      child: Text(
+                                                        'Rs.50',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 14,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height:
+                                                                1.4285714285714286),
+                                                      )),
+                                                ]))),
+                                        Positioned(
+                                            top: 64,
+                                            left: 0,
+                                            child: Container(
+                                                width: 343,
+                                                height: 24,
+                                                child: Stack(children: const <
+                                                    Widget>[
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 0,
+                                                      child: Text(
+                                                        'Total',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 18,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height: 1.5),
+                                                      )),
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 280,
+                                                      child: Text(
+                                                        'Rs.200',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontFamily:
+                                                                'SF Pro Display',
+                                                            fontSize: 16,
+                                                            letterSpacing:
+                                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            height: 1.5),
+                                                      )),
+                                                ]))),
+                                      ])),
                                   Container(
                                       width: 280,
                                       height: 48,
                                       alignment: Alignment.center,
                                       decoration: const BoxDecoration(
-                                        borderRadius : BorderRadius.only(
+                                        borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(32),
                                           topRight: Radius.circular(32),
                                           bottomLeft: Radius.circular(32),
                                           bottomRight: Radius.circular(32),
                                         ),
-                                        boxShadow : [BoxShadow(
-                                            color: Color.fromRGBO(10, 20, 16, 0.20149999856948853),
-                                            offset: Offset(8.531706009296642e-16,13.933333396911621),
-                                            blurRadius: 27.866666793823242
-                                        )],
-                                        gradient : LinearGradient(
-                                            begin: Alignment(6.123234262925839e-17,1),
-                                            end: Alignment(-1,6.123234262925839e-17),
-                                            colors: [Color.fromRGBO(57, 113, 89, 1),Color.fromRGBO(44, 88, 69, 1)]
-                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Color.fromRGBO(10, 20, 16,
+                                                  0.20149999856948853),
+                                              offset: Offset(
+                                                  8.531706009296642e-16,
+                                                  13.933333396911621),
+                                              blurRadius: 27.866666793823242)
+                                        ],
+                                        gradient: LinearGradient(
+                                            begin: Alignment(
+                                                6.123234262925839e-17, 1),
+                                            end: Alignment(
+                                                -1, 6.123234262925839e-17),
+                                            colors: [
+                                              Color.fromRGBO(57, 113, 89, 1),
+                                              Color.fromRGBO(44, 88, 69, 1)
+                                            ]),
                                       ),
-                                      child: const Text('Place Order', textAlign: TextAlign.center, style: TextStyle(
-                                          color: Color.fromRGBO(255, 255, 255, 1),
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 18,
-                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.normal,
-                                          height: 1
-                                      ),
+                                      child: const Text(
+                                        'Place Order',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1),
+                                            fontFamily: 'SF Pro Display',
+                                            fontSize: 18,
+                                            letterSpacing:
+                                                0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.normal,
+                                            height: 1),
                                       )),
                                 ],
                               ),
                             );
                           },
                         );
-
                       },
                     ),
                   ],
                 ),
-
-
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Online Payment"),
                     Radio(
@@ -891,7 +514,6 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -904,7 +526,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                       fontFamily: 'SF Pro Display',
                       fontSize: 12,
                       letterSpacing:
-                      0 /*percentages not used in flutter. defaulting to zero*/,
+                          0 /*percentages not used in flutter. defaulting to zero*/,
                       fontWeight: FontWeight.normal,
                       height: 1.3333333333333333),
                 ),
@@ -943,7 +565,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text("Cash on delivery"),
                                       Radio(
@@ -959,7 +581,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text("Online Payment"),
                                       Radio(

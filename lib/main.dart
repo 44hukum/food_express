@@ -5,24 +5,30 @@ import 'package:foodcommerce/pages/login.dart';
 import 'package:foodcommerce/pages/signup.dart';
 import 'package:foodcommerce/screen/restaurant_info.dart';
 import 'package:foodcommerce/services/cart.dart';
-import 'package:foodcommerce/services/session.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getString('user') !=null ? true : false;
+  print(prefs.get('user'));
+  runApp(MyApp(isLoggedIn: isLoggedIn,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (context)=> CartModel(),
       child: MaterialApp(
         title: 'Food Commerce',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'signup',
+        initialRoute: isLoggedIn ? 'home': 'login',
         routes: {
           'home':  (context) => const Home(),
           'checkout':  (context) => const MyCheckoutCart(),

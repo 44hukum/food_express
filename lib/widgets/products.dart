@@ -13,7 +13,8 @@ class Products extends StatefulWidget {
       required this.logo,
       required this.product_name,
       required this.price,
-      required this.description, required this.public_id})
+      required this.description,
+      required this.public_id})
       : super(key: key);
 
   @override
@@ -192,7 +193,12 @@ class _ProductsState extends State<Products> {
                       onTap: () {
                         if (quantity > 0) {
                           cartProvider.add('$quantity');
-                          Orders newOrder = Orders(widget.public_id, quantity, double.parse(widget.price));
+                          Orders newOrder = Orders(
+                              widget.product_name,
+                              quantity,
+                              double.parse(widget.price),
+                              widget.logo,
+                              widget.public_id);
                           addItemToCart(newOrder);
                           print('added');
                         } else {

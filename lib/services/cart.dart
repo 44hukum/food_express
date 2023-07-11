@@ -23,18 +23,22 @@ class CartModel extends ChangeNotifier{
 class Orders {
   late final int id;
   late final String item;
+  late final String image;
+  late final String public_id;
   late final int quantity;
   late final double price;
 
-  Orders(this.item, this.quantity, this.price);
+  Orders(this.item, this.quantity, this.price, this.image, this.public_id);
   Orders.fromMap(Map<String, dynamic> data)
       : id = data['id'],
+        image = data['image'],
+        public_id= data['public_id'],
         item = data['item'],
         quantity = data['quantity'],
         price = data['price'];
 
   Map<String, Object> toMap() {
-    return {'item': item, 'quantity': quantity, 'price': price};
+    return {'item': item, 'image': image,'public_id': public_id, 'quantity': quantity, 'price': price};
   }
 }
 
@@ -44,11 +48,10 @@ class SqliteService {
     String path = await getDatabasesPath(); // Initialized the Database
 
     return openDatabase(
-      join(path, 'food_commerce.db'),
+      join(path, 'foodCommerce.db'),
       onCreate: (database, version) async {
         await database.execute(
-          "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL,"
-              "quantity INTEGER NOT NULL, price REAL NOT NULL)",
+          "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, public_id TEXT NOT NULL, image TEXT NOT NULL, quantity INTEGER NOT NULL, price REAL NOT NULL)",
         );
       },
       version: 1,
@@ -95,7 +98,7 @@ class SqliteService {
       var total = await db.rawQuery('SELECT sum(price) from Orders');
       return total[0]['sum(price)'];
     } catch (err) {
-      debugPrint("Something went wrong when deleting an item: $err");
+      debugPrint("Got Some issues $err");
     }
   }
 }

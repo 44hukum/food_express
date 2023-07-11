@@ -17,7 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-  late Future<List<Restaurant>> restaurant;
   late Future username;
 
   @override
