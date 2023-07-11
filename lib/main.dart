@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Food Commerce',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'home',
+        initialRoute: 'signup',
         routes: {
           'home':  (context) => const Home(),
           'checkout':  (context) => const MyCheckoutCart(),

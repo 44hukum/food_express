@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +11,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
   bool _isLoading = false;
 
   void _showErrorSnackbar() {
@@ -44,21 +48,33 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() {
-    setState(() {
-      _isLoading = true;
-    });
+ Future<void> _login(BuildContext context) async {
+    final url = Uri.http('10.0.2.2:8000', 'api/auth/login/');
 
-    // Simulating login processing with a delay
-    Future.delayed(Duration(seconds: 2), () {
-      // Replace this with your actual login logic
-      setState(() {
-        _isLoading = false;
-      });
+    final Map<String, dynamic> requestData = {
+      'email': _emailController.text,
+      'password': _passwordController.text,
+    };
 
-      // If login fails, show error snackbar
+    final http.Response response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestData),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      // final String accessToken = responseData['access_token'];
+      // final String refreshToken = responseData['refresh_token'];
+      print(response.body);
+      Navigator.pushNamed(context, 'home');
+      // Perform actions with the access token and refresh token as needed
+    } else {
+      print(response.body);
+      // Handle registration error
       _showErrorSnackbar();
-    });
+
+    }
   }
 
   @override
@@ -67,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 80.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 80.0),
           color: Colors.black,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -77,8 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                 'lib/assets/images/restaurant.png',
                 height: 150.0,
               ),
-              SizedBox(height: 30.0),
-              Text(
+              const SizedBox(height: 30.0),
+              const Text(
                 'Welcome to Food Commerce',
                 style: TextStyle(
                   fontSize: 24.0,
@@ -119,8 +135,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  _showLoadingSnackbar();
-                  _login();
+                  _login(context);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,

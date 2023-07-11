@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignupPage extends StatefulWidget {
   @override
@@ -9,14 +12,18 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
+
   bool _isLoading = false;
   FocusNode _firstNameFocusNode = FocusNode();
   FocusNode _lastNameFocusNode = FocusNode();
   FocusNode _emailFocusNode = FocusNode();
+  FocusNode _usernameFocusNode = FocusNode();
+
   FocusNode _addressFocusNode = FocusNode();
   FocusNode _phoneNumberFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
@@ -24,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
 
   void _showErrorSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text(
           'Signup failed. Please try again.',
           style: TextStyle(color: Colors.white),
@@ -39,7 +46,7 @@ class _SignupPageState extends State<SignupPage> {
       SnackBar(
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
@@ -56,21 +63,62 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
   void _signup() {
-    setState(() {
-      _isLoading = true;
-    });
 
-    // Simulating signup processing with a delay
-    Future.delayed(Duration(seconds: 2), () {
-      // Replace this with your actual signup logic
-      setState(() {
-        _isLoading = false;
-      });
+    // setState(() {
+    //   _isLoading = true;
+    // });
 
-      // If signup fails, show error snackbar
+  }
+
+  Future<void> _register(BuildContext context) async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      _showSnackBar('Password and confirm password do not match');
+      return;
+    }
+
+    final url = Uri.http('10.0.2.2:8000', 'api/auth/register/');
+
+    final Map<String, dynamic> requestData = {
+      'first_name': _firstNameController.text,
+      'last_name': _lastNameController.text,
+      'email': _emailController.text,
+      'username': _usernameController.text,
+      'phonenumber': _phoneNumberController.text,
+      'password': _passwordController.text,
+    };
+
+    final http.Response response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestData),
+    );
+    print('Status code');
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      print(response.body);
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      // final String accessToken = responseData['access_token'];
+      // final String refreshToken = responseData['refresh_token'];
+      // Perform actions with the access token and refresh token as needed
+      _showSnackBar('Registration Successfully');
+      Navigator.pushNamed(context, 'home');
+    } else {
+        print(response.body);
       _showErrorSnackbar();
-    });
+
+    }
   }
 
   @override
@@ -78,6 +126,8 @@ class _SignupPageState extends State<SignupPage> {
     _firstNameFocusNode.dispose();
     _lastNameFocusNode.dispose();
     _emailFocusNode.dispose();
+    _usernameFocusNode.dispose();
+
     _addressFocusNode.dispose();
     _phoneNumberFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -99,6 +149,26 @@ class _SignupPageState extends State<SignupPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 20.0),
+
+              TextFormField(
+                controller: _usernameController,
+                focusNode: _usernameFocusNode,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+
               TextFormField(
                 controller: _firstNameController,
                 focusNode: _firstNameFocusNode,
@@ -224,8 +294,7 @@ class _SignupPageState extends State<SignupPage> {
               SizedBox(height: 40.0),
               ElevatedButton(
                 onPressed: () {
-                  _showLoadingSnackbar();
-                  _signup();
+                  _register(context);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
