@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/model/user.dart';
+import 'package:foodcommerce/services/session.dart';
 import 'package:http/http.dart' as http;
 
 class SignupPage extends StatefulWidget {
@@ -9,27 +11,19 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  bool _isLoading = false;
-  FocusNode _firstNameFocusNode = FocusNode();
-  FocusNode _lastNameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
-  FocusNode _usernameFocusNode = FocusNode();
+  final bool _isLoading = false;
 
-  FocusNode _addressFocusNode = FocusNode();
-  FocusNode _phoneNumberFocusNode = FocusNode();
-  FocusNode _passwordFocusNode = FocusNode();
-  FocusNode _confirmPasswordFocusNode = FocusNode();
-
-  void _showErrorSnackbar() {
+  void _showErrorSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
@@ -58,7 +52,8 @@ class _SignupPageState extends State<SignupPage> {
           ],
         ),
         backgroundColor: Colors.black54,
-        duration: Duration(minutes: 1), // Set a duration for longer processes
+        duration:
+            const Duration(minutes: 1), // Set a duration for longer processes
       ),
     );
   }
@@ -66,20 +61,14 @@ class _SignupPageState extends State<SignupPage> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message,
-          style: TextStyle(color: Colors.white),
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       ),
     );
-  }
-  void _signup() {
-
-    // setState(() {
-    //   _isLoading = true;
-    // });
-
   }
 
   Future<void> _register(BuildContext context) async {
@@ -104,194 +93,166 @@ class _SignupPageState extends State<SignupPage> {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(requestData),
     );
-    print('Status code');
-    print(response.statusCode);
     if (response.statusCode == 201) {
-      print(response.body);
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      // final String accessToken = responseData['access_token'];
-      // final String refreshToken = responseData['refresh_token'];
-      // Perform actions with the access token and refresh token as needed
-      _showSnackBar('Registration Successfully');
-      Navigator.pushNamed(context, 'home');
+      // final Map<String, dynamic> responseData = jsonDecode(response.body);
+      var decodedBody =
+          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      User user = User.fromJson(decodedBody);
+      SessionManager().saveUser(user.toJson());
+      Navigator.of(context).pushReplacementNamed('home');
     } else {
-        print(response.body);
-      _showErrorSnackbar();
-
+      _showErrorSnackBar();
     }
-  }
-
-  @override
-  void dispose() {
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _usernameFocusNode.dispose();
-
-    _addressFocusNode.dispose();
-    _phoneNumberFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _confirmPasswordFocusNode.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign up'),
+        title: const Text('Sign up'),
         backgroundColor: Colors.black,
       ),
       body: Container(
         color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 20.0),
-
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _usernameController,
-                focusNode: _usernameFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Username',
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: const Icon(Icons.person, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
-
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _firstNameController,
-                focusNode: _firstNameFocusNode,
                 decoration: InputDecoration(
                   labelText: 'First Name',
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: const Icon(Icons.person, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _lastNameController,
-                focusNode: _lastNameFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Last Name',
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: const Icon(Icons.person, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _emailController,
-                focusNode: _emailFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  prefixIcon: Icon(Icons.email, color: Colors.black),
+                  prefixIcon: const Icon(Icons.email, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _addressController,
-                focusNode: _addressFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Address',
-                  prefixIcon: Icon(Icons.location_on, color: Colors.black),
+                  prefixIcon:
+                      const Icon(Icons.location_on, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _phoneNumberController,
-                focusNode: _phoneNumberFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Phone Number',
-                  prefixIcon: Icon(Icons.phone, color: Colors.black),
+                  prefixIcon: const Icon(Icons.phone, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
                 keyboardType: TextInputType.phone,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
-                  controller: _passwordController,
-                  focusNode: _passwordFocusNode,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  obscureText: true,
-              ),
-                  SizedBox(height: 20.0),
-              TextFormField(
-                controller: _confirmPasswordController,
-                focusNode: _confirmPasswordFocusNode,
+                controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Confirm Password',
-                  prefixIcon: Icon(Icons.lock, color: Colors.black),
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.lock, color: Colors.black),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                   ),
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 40.0),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                controller: _confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 40.0),
               ElevatedButton(
                 onPressed: () {
                   _register(context);
@@ -299,23 +260,22 @@ class _SignupPageState extends State<SignupPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Sign up',
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, 'login');
-
                 },
-                child: Text(
+                child: const Text(
                   'Already have an account? Login',
                   style: TextStyle(
                     color: Colors.orange,

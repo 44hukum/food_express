@@ -5,6 +5,7 @@ import 'package:foodcommerce/pages/login.dart';
 import 'package:foodcommerce/pages/signup.dart';
 import 'package:foodcommerce/screen/restaurant_info.dart';
 import 'package:foodcommerce/services/cart.dart';
+import 'package:foodcommerce/services/session.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           'checkout':  (context) => const MyCheckoutCart(),
           'login': (context) => LoginPage(),
           'signup': (context) => SignupPage(),
-          'info': (context) => RestaurantInfoPage()
+          'info': (context) =>RestaurantInfoPage()
 
         },
       ),

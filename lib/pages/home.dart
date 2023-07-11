@@ -5,6 +5,7 @@ import 'package:foodcommerce/pages/profile.dart';
 import 'package:foodcommerce/pages/search.dart';
 import 'package:foodcommerce/screen/home.dart';
 import 'package:foodcommerce/services/cart.dart';
+import 'package:foodcommerce/services/session.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -17,8 +18,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   late Future<List<Restaurant>> restaurant;
+  late Future username;
 
-
+  @override
+  void initState() {
+    super.initState();
+    username= SessionManager().getUser();
+  }
 
   final List<Widget> _widgetOptions = <Widget>[
     const RestaurantHome(),
@@ -34,6 +40,8 @@ class _HomeState extends State<Home> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return PageView(
@@ -44,11 +52,20 @@ class _HomeState extends State<Home> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
+                DrawerHeader(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
-                  child: Text('Ashish Tamang'),
+                  child: FutureBuilder(
+                    future: username,
+                    builder: (context, snapshot){
+                      if(snapshot.hasData){
+                        return Text('${snapshot.data['username']}');
+                      }else{
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 ),
                 ListTile(
                   title: const Text('Settings'),
@@ -64,10 +81,10 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 ListTile(
-                  title: const Text('History'),
+                  title: const Text('Logout'),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                   SessionManager().clearSession();
+                   Navigator.of(context).pushReplacementNamed('login');
                   },
                 ),
               ],

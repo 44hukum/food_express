@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/model/user.dart';
+import 'package:foodcommerce/services/session.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
@@ -16,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _showErrorSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text(
           'Login failed. Please try again.',
           style: TextStyle(color: Colors.white),
@@ -31,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       SnackBar(
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
@@ -64,13 +66,13 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
-      // final String accessToken = responseData['access_token'];
-      // final String refreshToken = responseData['refresh_token'];
-      print(response.body);
-      Navigator.pushNamed(context, 'home');
+      // Initialize data for shared Preferences
+      var decodedBody = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      User user = User.fromJson(decodedBody);
+      SessionManager().saveUser(user.toJson());
+      Navigator.of(context).pushReplacementNamed('home');
       // Perform actions with the access token and refresh token as needed
     } else {
-      print(response.body);
       // Handle registration error
       _showErrorSnackbar();
 
@@ -103,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -111,28 +113,28 @@ class _LoginPageState extends State<LoginPage> {
                   prefixIcon: const Icon(Icons.email, color: Colors.white),
                   labelStyle: const TextStyle(color: Colors.white),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock, color: Colors.white),
-                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: const Icon(Icons.lock, color: Colors.white),
+                  labelStyle: const TextStyle(color: Colors.white),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 obscureText: true,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   _login(context);
@@ -140,22 +142,22 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   onPrimary: Colors.black,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Login',
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
                     Navigator.pushNamed(context, 'signup');
                 },
-                child: Text(
+                child: const Text(
                   'Don\'t have an account? Sign up',
                   style: TextStyle(
                     color: Colors.orange,

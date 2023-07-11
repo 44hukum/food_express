@@ -1,26 +1,32 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-  static const String _accessTokenKey = 'access_token';
 
-  static Future<bool> isLoggedIn() async {
+  Future<bool> isLoggedIn(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString(_accessTokenKey);
-    return accessToken != null;
+    final String? user = prefs.getString(key);
+    return user != null;
   }
 
-  static Future<void> saveAccessToken(String accessToken) async {
+  Future<void> saveUser(Map<String, dynamic> user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_accessTokenKey, accessToken);
+    String jsonString = jsonEncode(user);
+    prefs.setString('user', jsonString);
   }
 
-  static Future<String?> getAccessToken() async {
+  Future<Map<String, dynamic>> getUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_accessTokenKey);
+    String? data = prefs.getString('user');
+    return jsonDecode(data!);
   }
 
-  static Future<void> clearSession() async {
+  Future<void> clearSession() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    print('cleared');
   }
+
+
 }
