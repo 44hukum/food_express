@@ -111,7 +111,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                         width: 133,
                                         height: 28,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(14),
                                             topRight: Radius.circular(0),
                                             bottomLeft: Radius.circular(14),
@@ -163,7 +163,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                         ))): Container(),
                               ]));
                         }else{
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                       }),
                     )
@@ -505,17 +505,18 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
                             children:
                             List.generate(snapshot.data.length, (index) {
-                              return Products(
+                              return snapshot.data[index]['pcategory'] == 'Breakfast' ? Products(
                                   public_id: snapshot.data[index]['pid'],
                                   logo: snapshot.data[index]['pimage'],
                                   product_name: snapshot.data[index]['pname'],
                                   price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']);
+                                  description: snapshot.data[index]['pdescription']): Container();
                             })),
                       );
                     } else {
@@ -531,43 +532,18 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
                             children:
                             List.generate(snapshot.data.length, (index) {
-                              return Products(
+                              return snapshot.data[index]['pcategory'] == 'Lunch' ? Products(
                                   public_id: snapshot.data[index]['pid'],
                                   logo: snapshot.data[index]['pimage'],
                                   product_name: snapshot.data[index]['pname'],
                                   price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']);
-                            })),
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  }),
-            ],
-          ),
-          ListView(
-            padding: EdgeInsets.all(0),
-            children: [
-              FutureBuilder(
-                  future: futureRestaurantMenu,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                            children:
-                            List.generate(snapshot.data.length, (index) {
-                              return Products(
-                                  public_id: snapshot.data[index]['pid'],
-                                  logo: snapshot.data[index]['pimage'],
-                                  product_name: snapshot.data[index]['pname'],
-                                  price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']);
+                                  description: snapshot.data[index]['pdescription']): Container();
                             })),
                       );
                     } else {
@@ -577,6 +553,33 @@ class _RestaurantHomeState extends State<RestaurantHome> {
             ],
           ),
 
+          ListView(
+            padding: EdgeInsets.all(0),
+            children: [
+              FutureBuilder(
+                  future: futureRestaurantMenu,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                            children:
+                            List.generate(snapshot.data.length, (index) {
+                              return snapshot.data[index]['pcategory'] == 'Dinner' ? Products(
+                                  public_id: snapshot.data[index]['pid'],
+                                  logo: snapshot.data[index]['pimage'],
+                                  product_name: snapshot.data[index]['pname'],
+                                  price: snapshot.data[index]['pprice'],
+                                  description: snapshot.data[index]['pdescription']): Container();
+                            })),
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }),
+            ],
+          ),
         ]),
       ),
     );
