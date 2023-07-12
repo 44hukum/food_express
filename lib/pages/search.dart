@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodcommerce/model/products.dart';
+import 'package:foodcommerce/widgets/products.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SearchLandingPage extends StatefulWidget {
   @override
@@ -7,16 +11,9 @@ class SearchLandingPage extends StatefulWidget {
 
 class _SearchLandingPageState extends State<SearchLandingPage> {
   TextEditingController _searchController = TextEditingController();
-  List<String> _foodItems = [
-    'Pizza',
-    'Burger',
-    'Pasta',
-    'Salad',
-    'Sushi',
-    'Tacos',
-    'Steak',
-  ];
-  List<String> _searchResults = [];
+
+
+  List<dynamic> _searchResults = [];
 
   String _rememberedInput = ''; // Variable to remember user input
 
@@ -33,17 +30,25 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
     super.dispose();
   }
 
-  void _performSearch(String searchTerm) {
+  void _performSearch(String searchTerm) async{
+    final baseUrl = Uri.http('10.0.2.2:8000', 'api/search_products/?search=momo');
+    final url = Uri.parse('$baseUrl/?search=$searchTerm');
+    var response = await http.get(url);
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    List<ProductModel> products =
+    decodedResponse['results'].map<ProductModel>((json) {
+      return ProductModel.fromJson(json);
+    }).toList();
+    List returnData = List.generate(products.length, (index) => products[index].toJson());
+
     setState(() {
       if (searchTerm.isNotEmpty) {
-        _searchResults = _foodItems
-            .where((food) =>
-            food.toLowerCase().contains(searchTerm.toLowerCase()))
-            .toList();
+          _searchResults = returnData;
       } else {
         _searchResults.clear();
       }
     });
+    print(returnData);
   }
 
   void _clearSearch() {
@@ -73,7 +78,7 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
         foregroundColor: Colors.black,
         title: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(40),
                 topRight: Radius.circular(40),
                 bottomLeft: Radius.circular(40),
@@ -97,7 +102,7 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
                     hintText: 'Search for a food item',
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                   ),
                   onSubmitted: (value) {
@@ -115,41 +120,20 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: _searchResults.isNotEmpty
-            ? ListView.builder(
-          itemCount: _searchResults.length,
-          itemBuilder: (context, index) {
-            String foodItem = _searchResults[index];
-            return Card(
-              elevation: 4.0,
-              child: ListTile(
-                title: Text(
-                  foodItem,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                leading: Icon(Icons.restaurant_menu),
-                trailing: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    // Add the food item to the cart or perform an action
-                  },
-                ),
-              ),
-            );
-          },
-        )
-            : Center(
-          child: Text(
-            'No search results found',
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
+      body: _searchResults.isNotEmpty
+          ? ListView.builder(
+        itemCount: _searchResults.length,
+        itemBuilder: (context, index) {
+          print(_searchResults[index]);
+          return Products(logo: _searchResults[index]['pimage'], product_name:  _searchResults[index]['pname'], price:  _searchResults[index]['pprice'], description:  _searchResults[index]['pdescription'], public_id:  _searchResults[index]['pid']);
+        },
+      )
+          : const Center(
+        child: Text(
+          'No search results found',
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

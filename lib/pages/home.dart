@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:foodcommerce/model/restaurant.dart';
 import 'package:foodcommerce/pages/profile.dart';
@@ -22,7 +21,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    username= SessionManager().getUser();
+    username = SessionManager().getUser();
   }
 
   final List<Widget> _widgetOptions = <Widget>[
@@ -39,8 +38,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return PageView(
@@ -52,27 +49,46 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: FutureBuilder(
+
+                  child:
+                  FutureBuilder(
                     future: username,
-                    builder: (context, snapshot){
-                      if(snapshot.hasData){
-                        return Text('${snapshot.data['username']}');
-                      }else{
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return  SingleChildScrollView(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 50,
+                                  backgroundImage: AssetImage('lib/assets/images/meals.png'),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${snapshot.data['username']}',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
                         return const CircularProgressIndicator();
                       }
                     },
                   ),
-                ),
-                ListTile(
-                  title: const Text('Settings'),
-                  onTap: () {
 
-                  },
                 ),
+
                 ListTile(
+                  leading: Icon(Icons.restaurant),
                   title: const Text('Orders'),
                   onTap: () {
                     // Update the state of the app.
@@ -80,10 +96,11 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.arrow_back),
                   title: const Text('Logout'),
                   onTap: () {
-                   SessionManager().clearSession();
-                   Navigator.of(context).pushReplacementNamed('login');
+                    SessionManager().clearSession();
+                    Navigator.of(context).pushReplacementNamed('login');
                   },
                 ),
               ],
@@ -91,39 +108,43 @@ class _HomeState extends State<Home> {
           ),
           body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
           floatingActionButton: Consumer<CartModel>(
-            builder: (context, cartProvider,_){
-              return cartProvider.length() > 0 ?  GestureDetector(
-                onTap: (){
-                    Navigator.pushNamed(context, 'checkout');
-                },
-                child: Container(
-                    width: 150,
-                    height: 43,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        color: Colors.black
-                    ),
-                    child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('View Cart', style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18
-                        ),),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(Icons.arrow_forward, color: Colors.white,)
-                      ],
+            builder: (context, cartProvider, _) {
+              return cartProvider.length() > 0
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, 'checkout');
+                      },
+                      child: Container(
+                          width: 150,
+                          height: 43,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                              color: Colors.black),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'View Cart',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              )
+                            ],
+                          )),
                     )
-                ),
-              ): Container();
+                  : Container();
             },
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -138,7 +159,6 @@ class _HomeState extends State<Home> {
                   label: 'search', icon: Icon(Icons.search)),
               BottomNavigationBarItem(
                   label: 'profile', icon: Icon(Icons.person)),
-
             ],
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,

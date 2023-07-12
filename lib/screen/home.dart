@@ -224,20 +224,32 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                                         ),
                                         color: Colors.red,
                                       ))),
-                              const Positioned(
+                              Positioned(
                                   top: 2,
                                   left: 10,
-                                  child: Text(
-                                    '10:00 AM - 9:00 PM',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 14,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1.3333333333333333),
-                                  )),
+                                  child:
+                                  FutureBuilder(
+                                      future: futureRestaurant,
+                                      builder: (context, snapshot) {
+                                      if(snapshot.hasData){
+                                        return Text(
+                                          snapshot.data['rdelivery_time'],
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'SF Pro Display',
+                                              fontSize: 14,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.normal,
+                                              height: 1.3333333333333333),
+                                        );
+                                      }
+                                      else{
+                                        return const CircularProgressIndicator();
+                                      }
+                                  })
+
+                        ),
                             ])),
                       ],
                     ),
