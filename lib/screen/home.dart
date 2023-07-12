@@ -79,86 +79,93 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                     Container(
                       width: double.infinity,
                       height: 290,
-                      color: Colors.black,
-                      // decoration: const BoxDecoration(
-                      //   borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.circular(14),
-                      //   topRight: Radius.circular(0),
-                      //   bottomLeft: Radius.circular(14),
-                      //   bottomRight: Radius.circular(0),
-                      //   ),
-                      //   image: DecorationImage(
-                      //     image:
-                      //     AssetImage('lib/assets/images/restaurant.png'),
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(14),
+                        topRight: Radius.circular(0),
+                        bottomLeft: Radius.circular(14),
+                        bottomRight: Radius.circular(0),
+                        ),
+                        image: DecorationImage(
+                          image:
+                          AssetImage('lib/assets/images/backgroound.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     Positioned(
                       bottom: 50,
                       right: 0,
-                      child: SizedBox(
-                          width: 133,
-                          height: 28,
-                          child: Stack(children: <Widget>[
-                            Positioned(
-                                top: 0,
-                                left: 0,
-                                child: Container(
-                                    width: 133,
-                                    height: 28,
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(14),
-                                        topRight: Radius.circular(0),
-                                        bottomLeft: Radius.circular(14),
-                                        bottomRight: Radius.circular(0),
-                                      ),
-                                      color: Color.fromRGBO(52, 103, 81, 1),
-                                    ))),
-                            const Positioned(
-                                top: 6,
-                                left: 24,
-                                child: Text(
-                                  'Open Now',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(255, 255, 255, 1),
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 12,
-                                      letterSpacing:
+                      child: FutureBuilder(
+                          future: futureRestaurant,
+                          builder: (context, snapshot){
+                        if (snapshot.hasData){
+                          return SizedBox(
+                              width: 133,
+                              height: 28,
+                              child: Stack(children: <Widget>[
+                                Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    child: Container(
+                                        width: 133,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(14),
+                                            topRight: Radius.circular(0),
+                                            bottomLeft: Radius.circular(14),
+                                            bottomRight: Radius.circular(0),
+                                          ),
+                                          color: snapshot.data['rstatus'] =='open' ? Color.fromRGBO(52, 103, 81, 1): Colors.red,
+                                        ))),
+                                Positioned(
+                                    top: 2,
+                                    left: 24,
+                                    child: Text(
+                                      '${snapshot.data['rstatus']}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          color: snapshot.data['rstatus'] =='open'? Color.fromRGBO(255, 255, 255, 1) : Colors.white,
+                                          fontFamily: 'SF Pro Display',
+                                          fontSize: 16,
+                                          letterSpacing:
                                           0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1.3333333333333333),
-                                )),
-                            Positioned(
-                                top: 10,
-                                left: 8,
-                                child: Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color.fromRGBO(
-                                                0, 51, 17, 0.47450000047683716),
-                                            offset: Offset(0.1484513133764267,
-                                                1.0562859773635864),
-                                            blurRadius: 2.133333444595337)
-                                      ],
-                                      gradient: LinearGradient(
-                                          begin: Alignment(0.13917310535907745,
-                                              0.9902680516242981),
-                                          end: Alignment(-0.9902680516242981,
-                                              0.13917310535907745),
-                                          colors: [
-                                            Color.fromRGBO(0, 180, 61, 1),
-                                            Color.fromRGBO(0, 255, 105, 1)
-                                          ]),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.elliptical(8, 8)),
-                                    ))),
-                          ])),
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.3333333333333333),
+                                    )),
+                                snapshot.data['rstatus'] =='open' ? Positioned(
+                                    top: 10,
+                                    left: 8,
+                                    child: Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: const BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Color.fromRGBO(
+                                                    0, 51, 17, 0.47450000047683716),
+                                                offset: Offset(0.1484513133764267,
+                                                    1.0562859773635864),
+                                                blurRadius: 2.133333444595337)
+                                          ],
+                                          gradient: LinearGradient(
+                                              begin: Alignment(0.13917310535907745,
+                                                  0.9902680516242981),
+                                              end: Alignment(-0.9902680516242981,
+                                                  0.13917310535907745),
+                                              colors: [
+                                                Color.fromRGBO(0, 180, 61, 1),
+                                                Color.fromRGBO(0, 255, 105, 1)
+                                              ]),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.elliptical(8, 8)),
+                                        ))): Container(),
+                              ]));
+                        }else{
+                          return CircularProgressIndicator();
+                        }
+                      }),
                     )
                   ],
                 ),

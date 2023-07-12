@@ -201,7 +201,7 @@ class _ProductsState extends State<Products> {
                           Orders newOrder = Orders(
                               widget.product_name,
                               quantity,
-                              double.parse(widget.price),
+                              double.parse(widget.price) * quantity,
                               widget.logo,
                               widget.public_id);
                           addItemToCart(newOrder);

@@ -65,13 +65,12 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
           if(snapshot.hasData){
             return Padding(
               padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   Center(
                     child: Container(
-                      width: 200,
-                      height: 200,
+                      width: 150,
+                      height: 150,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -81,19 +80,36 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Text(
                     snapshot.data['rname'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
+                  ListTile(
+                    leading: Icon(Icons.lock_clock),
+                    title: const Text(
+                      'Status:',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      snapshot.data['rstatus'],
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
                   ListTile(
                     leading: Icon(Icons.location_on),
-                    title: Text(
+                    title: const Text(
                       'Address:',
                       style: TextStyle(
                         fontSize: 16.0,
@@ -103,6 +119,23 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
                     subtitle: Text(
                       snapshot.data['raddress'],
                       style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  ListTile(
+                    leading: const Icon(Icons.delivery_dining),
+                    title: const Text(
+                      'Delivery Time:',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      snapshot.data['rdelivery_time'],
+                      style: const TextStyle(
                         fontSize: 16.0,
                       ),
                     ),
@@ -159,13 +192,7 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: _makePhoneCall,
-                      child: Text('Call'),
-                    ),
-                  ),
+
                 ],
               ),
             );

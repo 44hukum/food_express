@@ -553,6 +553,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                           // String data = '{"user": ${user['id']}, "order_items": $orderItems';
                                         Map<String, dynamic> data = {
                                           'user': user['id'],
+                                          'payment_method': 'esewa',
                                           'order_items': orderItems
                                         };
                                           _placeOrder(context, data);

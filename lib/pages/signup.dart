@@ -93,10 +93,13 @@ class _SignupPageState extends State<SignupPage> {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(requestData),
     );
+    print('here',);
     if (response.statusCode == 201) {
       // final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print('hERE');
       var decodedBody =
           jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      print(decodedBody);
       User user = User.fromJson(decodedBody);
       SessionManager().saveUser(user.toJson());
       Navigator.of(context).pushReplacementNamed('home');
