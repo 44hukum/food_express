@@ -71,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
       User user = User.fromJson(decodedBody);
       SessionManager().saveUser(user.toJson());
       Navigator.of(context).pushReplacementNamed('home');
-      // Perform actions with the access token and refresh token as needed
     } else {
       // Handle registration error
       _showErrorSnackbar();

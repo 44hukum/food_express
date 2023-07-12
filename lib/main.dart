@@ -12,6 +12,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getString('user') !=null ? true : false;
+
   print(prefs.get('user'));
   runApp(MyApp(isLoggedIn: isLoggedIn,));
 }

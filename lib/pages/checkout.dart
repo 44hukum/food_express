@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodcommerce/services/cart.dart';
+import 'package:foodcommerce/services/session.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
 
 class MyCheckoutCart extends StatefulWidget {
   const MyCheckoutCart({Key? key}) : super(key: key);
@@ -13,15 +19,27 @@ class MyCheckoutCart extends StatefulWidget {
 class _MyCheckoutCartState extends State<MyCheckoutCart> {
 
   late SqliteService _sqliteService;
-  late var totalBill;
+  double? totalBill = 0.0 ;
 
   List<Widget> _rowWidget = [];
+  List<Orders> orders = [];
+  bool is_processing = false;
 
   Future<void> _fetchData() async {
     _sqliteService = SqliteService();
     await _sqliteService.initializeDB();
     final data = await _sqliteService.getItems();
     final bill = await _sqliteService.totalBill();
+
+    setState(() {
+      orders = data;
+      if(bill is double){
+        totalBill = bill;
+      }else{
+        print('total bill is not available');
+      }
+
+    });
     _rowWidget = data.map((element) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -130,10 +148,55 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
       );
     }).toList();
 
-    setState(() {
-      totalBill = bill;
+
+  }
+
+  void showSnackbarAndRedirect(BuildContext context) {
+    final snackBar = SnackBar(content: Text('Your Order has been placed'), duration: Duration(seconds: 5),);
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacementNamed('home');
     });
   }
+
+
+  Future<void> _placeOrder(BuildContext context, Map<String, dynamic> data) async {
+    final url = Uri.http('10.0.2.2:8000', 'api/orders/');
+
+    final Map<String, dynamic> requestData = data;
+
+    final http.Response response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestData),
+    );
+
+    if (response.statusCode == 201) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print('order_placed');
+      print(responseData);
+      _sqliteService = SqliteService();
+      _sqliteService.initializeDB().whenComplete(() async {
+        await _sqliteService.deleteALl();
+        print('cleared itemss');
+        //Successfully removed
+      });
+      final cartProvider = context.read<CartModel>();
+      cartProvider.removeAll();
+      showSnackbarAndRedirect(context);
+      //
+    } else {
+
+      // Handle registration error
+      print(response.body);
+      // _showErrorSnackbar();
+
+    }
+  }
+
+
 
   @override
   void initState() {
@@ -292,9 +355,9 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             child: Container(
                                                 width: 343,
                                                 height: 20,
-                                                child: Stack(children: const <
+                                                child: Stack(children:  <
                                                     Widget>[
-                                                  Positioned(
+                                                  const Positioned(
                                                       top: 0,
                                                       left: 0,
                                                       child: Text(
@@ -318,12 +381,12 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                       )),
                                                   Positioned(
                                                       top: 0,
-                                                      left: 280,
+                                                      left: 250,
                                                       child: Text(
-                                                        'Rs.150',
+                                                        'Rs. ${totalBill}',
                                                         textAlign:
                                                             TextAlign.right,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
                                                                     0, 0, 0, 1),
@@ -371,7 +434,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                       )),
                                                   Positioned(
                                                       top: 0,
-                                                      left: 280,
+                                                      left: 250,
                                                       child: Text(
                                                         'Rs.50',
                                                         textAlign:
@@ -398,9 +461,9 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             child: Container(
                                                 width: 343,
                                                 height: 24,
-                                                child: Stack(children: const <
+                                                child: Stack(children: <
                                                     Widget>[
-                                                  Positioned(
+                                                  const Positioned(
                                                       top: 0,
                                                       left: 0,
                                                       child: Text(
@@ -423,12 +486,12 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                                       )),
                                                   Positioned(
                                                       top: 0,
-                                                      left: 280,
+                                                      left: 250,
                                                       child: Text(
-                                                        'Rs.200',
+                                                        'Rs. ${totalBill! + 50.0}',
                                                         textAlign:
                                                             TextAlign.right,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
                                                                     0, 0, 0, 1),
@@ -474,18 +537,39 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                               Color.fromRGBO(44, 88, 69, 1)
                                             ]),
                                       ),
-                                      child: const Text(
-                                        'Place Order',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontFamily: 'SF Pro Display',
-                                            fontSize: 18,
-                                            letterSpacing:
-                                                0 /*percentages not used in flutter. defaulting to zero*/,
-                                            fontWeight: FontWeight.normal,
-                                            height: 1),
+                                      child: GestureDetector(
+
+                                        onTap: () async{
+                                        var user= await SessionManager().getUser();
+                                            List orderItems = [];
+                                            orders.forEach((element) async{
+                                              orderItems.add(
+                                                  {
+                                                    "item": element.public_id,
+                                                    "quantity": element.quantity
+                                                  }
+                                              );
+                                            });
+                                          // String data = '{"user": ${user['id']}, "order_items": $orderItems';
+                                        Map<String, dynamic> data = {
+                                          'user': user['id'],
+                                          'order_items': orderItems
+                                        };
+                                          _placeOrder(context, data);
+                                        },
+                                        child: const Text(
+                                          'Place Order',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 1),
+                                              fontFamily: 'SF Pro Display',
+                                              fontSize: 18,
+                                              letterSpacing:
+                                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.normal,
+                                              height: 1),
+                                        ),
                                       )),
                                 ],
                               ),
@@ -617,3 +701,5 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
     );
   }
 }
+
+

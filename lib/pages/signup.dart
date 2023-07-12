@@ -101,6 +101,7 @@ class _SignupPageState extends State<SignupPage> {
       SessionManager().saveUser(user.toJson());
       Navigator.of(context).pushReplacementNamed('home');
     } else {
+      print(response.body);
       _showErrorSnackBar();
     }
   }
