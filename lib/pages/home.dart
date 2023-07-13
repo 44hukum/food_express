@@ -49,7 +49,6 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
-
                   child:
                   FutureBuilder(
                     future: username,
@@ -68,7 +67,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  '${snapshot.data['username']}',
+                                  '${snapshot.data['email']}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 18,

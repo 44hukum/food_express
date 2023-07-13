@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          'Login failed. Please try again.',
+          'Login Failed, check your credentials',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.red,
@@ -70,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       var decodedBody = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
       User user = User.fromJson(decodedBody);
       SessionManager().saveUser(user.toJson());
+
       Navigator.of(context).pushReplacementNamed('home');
     } else {
       // Handle registration error

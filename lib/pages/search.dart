@@ -31,7 +31,7 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
   }
 
   void _performSearch(String searchTerm) async{
-    final baseUrl = Uri.http('10.0.2.2:8000', 'api/search_products/?search=momo');
+    final baseUrl = Uri.http('10.0.2.2:8000', 'api/search_products');
     final url = Uri.parse('$baseUrl/?search=$searchTerm');
     var response = await http.get(url);
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
@@ -73,6 +73,7 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         elevation: 0,
         foregroundColor: Colors.black,

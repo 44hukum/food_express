@@ -8,7 +8,6 @@ import 'package:foodcommerce/services/session.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-
 class MyCheckoutCart extends StatefulWidget {
   const MyCheckoutCart({Key? key}) : super(key: key);
 
@@ -17,9 +16,11 @@ class MyCheckoutCart extends StatefulWidget {
 }
 
 class _MyCheckoutCartState extends State<MyCheckoutCart> {
-
+  late Future delivery_address;
   late SqliteService _sqliteService;
-  double? totalBill = 0.0 ;
+  double? totalBill = 0.0;
+
+  bool isEmptyOrder = false;
 
   List<Widget> _rowWidget = [];
   List<Orders> orders = [];
@@ -33,12 +34,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
 
     setState(() {
       orders = data;
-      if(bill is double){
+      if (bill is double) {
         totalBill = bill;
-      }else{
+      } else {
         print('total bill is not available');
       }
-
     });
     _rowWidget = data.map((element) {
       return Row(
@@ -147,12 +147,13 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
         ],
       );
     }).toList();
-
-
   }
 
   void showSnackbarAndRedirect(BuildContext context) {
-    final snackBar = SnackBar(content: Text('Your Order has been placed'), duration: Duration(seconds: 5),);
+    final snackBar = SnackBar(
+      content: Text('Your Order has been placed'),
+      duration: Duration(seconds: 5),
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
@@ -161,8 +162,22 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
     });
   }
 
+  void _showSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Your Cart is empty',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 4),
+        backgroundColor: Colors.red,
+      ),
 
-  Future<void> _placeOrder(BuildContext context, Map<String, dynamic> data) async {
+    );
+  }
+
+  Future<void> _placeOrder(
+      BuildContext context, Map<String, dynamic> data) async {
     final url = Uri.http('10.0.2.2:8000', 'api/orders/');
 
     final Map<String, dynamic> requestData = data;
@@ -188,21 +203,19 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
       showSnackbarAndRedirect(context);
       //
     } else {
-
       // Handle registration error
       print(response.body);
       // _showErrorSnackbar();
-
     }
   }
-
-
 
   @override
   void initState() {
     super.initState();
     _fetchData();
+    delivery_address = SessionManager().getUser();
   }
+
   String? delivery;
 
   @override
@@ -274,23 +287,38 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                 Row(
                   children: [
                     //  Delivery Address
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      color: Colors.orange,
-                      radius: const Radius.circular(20),
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('Name:  Ashish Tamang'),
-                              Text('Contact: 9845701618'),
-                              Text('Naikap Tinthana Kathmandu')
-                            ],
-                          ),
+                    Container(
+                      width: 300,
+                      child: DottedBorder(
+                        borderType: BorderType.RRect,
+                        color: Colors.orange,
+                        radius: const Radius.circular(20),
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12)),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FutureBuilder(
+                                future: delivery_address,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            'Name:  ${snapshot.data['first_name']} ${snapshot.data['last_name']}'),
+                                        Text(
+                                            'Contact: ${snapshot.data['phonenumber']}'),
+                                        Text(
+                                            'Address: ${snapshot.data['address']}')
+                                      ],
+                                    );
+                                  } else {
+                                    return CircularProgressIndicator();
+                                  }
+                                },
+                              )),
                         ),
                       ),
                     ),
@@ -355,8 +383,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             child: Container(
                                                 width: 343,
                                                 height: 20,
-                                                child: Stack(children:  <
-                                                    Widget>[
+                                                child: Stack(children: <Widget>[
                                                   const Positioned(
                                                       top: 0,
                                                       left: 0,
@@ -461,8 +488,7 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             child: Container(
                                                 width: 343,
                                                 height: 24,
-                                                child: Stack(children: <
-                                                    Widget>[
+                                                child: Stack(children: <Widget>[
                                                   const Positioned(
                                                       top: 0,
                                                       left: 0,
@@ -538,25 +564,28 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             ]),
                                       ),
                                       child: GestureDetector(
-
-                                        onTap: () async{
-                                        var user= await SessionManager().getUser();
+                                        onTap: () async {
+                                          if (orders.isNotEmpty) {
+                                            var user = await SessionManager()
+                                                .getUser();
                                             List orderItems = [];
-                                            orders.forEach((element) async{
-                                              orderItems.add(
-                                                  {
-                                                    "item": element.public_id,
-                                                    "quantity": element.quantity
-                                                  }
-                                              );
+                                            orders.forEach((element) async {
+                                              orderItems.add({
+                                                "item": element.public_id,
+                                                "quantity": element.quantity
+                                              });
                                             });
-                                          // String data = '{"user": ${user['id']}, "order_items": $orderItems';
-                                        Map<String, dynamic> data = {
-                                          'user': user['id'],
-                                          'payment_method': 'esewa',
-                                          'order_items': orderItems
-                                        };
-                                          _placeOrder(context, data);
+                                            // String data = '{"user": ${user['id']}, "order_items": $orderItems';
+                                            Map<String, dynamic> data = {
+                                              'user': user['id'],
+                                              'payment_method': 'esewa',
+                                              'order_items': orderItems
+                                            };
+                                            _placeOrder(context, data);
+                                          }else{
+                                            Navigator.pop(context);
+                                            _showSnackbar();
+                                          }
                                         },
                                         child: const Text(
                                           'Place Order',
@@ -702,5 +731,3 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
     );
   }
 }
-
-
