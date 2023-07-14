@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-
   Future<bool> isLoggedIn(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? user = prefs.getString(key);
@@ -27,6 +26,4 @@ class SessionManager {
     prefs.clear();
     print('cleared');
   }
-
-
 }

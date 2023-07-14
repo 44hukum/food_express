@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class CartModel extends ChangeNotifier{
+class CartModel extends ChangeNotifier {
   final List<String> _items = [];
 
   void add(String item) {
@@ -10,9 +10,10 @@ class CartModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  int length(){
+  int length() {
     return _items.length;
   }
+
   /// Removes all items from the cart.
   void removeAll() {
     _items.clear();
@@ -32,13 +33,19 @@ class Orders {
   Orders.fromMap(Map<String, dynamic> data)
       : id = data['id'],
         image = data['image'],
-        public_id= data['public_id'],
+        public_id = data['public_id'],
         item = data['item'],
         quantity = data['quantity'],
         price = data['price'];
 
   Map<String, Object> toMap() {
-    return {'item': item, 'image': image,'public_id': public_id, 'quantity': quantity, 'price': price};
+    return {
+      'item': item,
+      'image': image,
+      'public_id': public_id,
+      'quantity': quantity,
+      'price': price
+    };
   }
 }
 

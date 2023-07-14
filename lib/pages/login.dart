@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
- Future<void> _login(BuildContext context) async {
+  Future<void> _login(BuildContext context) async {
     final url = Uri.http('10.0.2.2:8000', 'api/auth/login/');
 
     final Map<String, dynamic> requestData = {
@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
       // Initialize data for shared Preferences
-      var decodedBody = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      var decodedBody =
+          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
       User user = User.fromJson(decodedBody);
       SessionManager().saveUser(user.toJson());
 
@@ -75,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       // Handle registration error
       _showErrorSnackbar();
-
     }
   }
 
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                    Navigator.pushNamed(context, 'signup');
+                  Navigator.pushNamed(context, 'signup');
                 },
                 child: const Text(
                   'Don\'t have an account? Sign up',

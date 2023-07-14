@@ -12,7 +12,6 @@ class SearchLandingPage extends StatefulWidget {
 class _SearchLandingPageState extends State<SearchLandingPage> {
   TextEditingController _searchController = TextEditingController();
 
-
   List<dynamic> _searchResults = [];
 
   String _rememberedInput = ''; // Variable to remember user input
@@ -30,20 +29,21 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
     super.dispose();
   }
 
-  void _performSearch(String searchTerm) async{
+  void _performSearch(String searchTerm) async {
     final baseUrl = Uri.http('10.0.2.2:8000', 'api/search_products');
     final url = Uri.parse('$baseUrl/?search=$searchTerm');
     var response = await http.get(url);
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     List<ProductModel> products =
-    decodedResponse['results'].map<ProductModel>((json) {
+        decodedResponse['results'].map<ProductModel>((json) {
       return ProductModel.fromJson(json);
     }).toList();
-    List returnData = List.generate(products.length, (index) => products[index].toJson());
+    List returnData =
+        List.generate(products.length, (index) => products[index].toJson());
 
     setState(() {
       if (searchTerm.isNotEmpty) {
-          _searchResults = returnData;
+        _searchResults = returnData;
       } else {
         _searchResults.clear();
       }
@@ -79,15 +79,13 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
         foregroundColor: Colors.black,
         title: Container(
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            border: Border.all(
-              color: Colors.black
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(40),
             ),
+            border: Border.all(color: Colors.black),
           ),
           child: Row(
             children: [
@@ -123,21 +121,26 @@ class _SearchLandingPageState extends State<SearchLandingPage> {
       ),
       body: _searchResults.isNotEmpty
           ? ListView.builder(
-        itemCount: _searchResults.length,
-        itemBuilder: (context, index) {
-          print(_searchResults[index]);
-          return Products(logo: _searchResults[index]['pimage'], product_name:  _searchResults[index]['pname'], price:  _searchResults[index]['pprice'], description:  _searchResults[index]['pdescription'], public_id:  _searchResults[index]['pid']);
-        },
-      )
+              itemCount: _searchResults.length,
+              itemBuilder: (context, index) {
+                print(_searchResults[index]);
+                return Products(
+                    logo: _searchResults[index]['pimage'],
+                    product_name: _searchResults[index]['pname'],
+                    price: _searchResults[index]['pprice'],
+                    description: _searchResults[index]['pdescription'],
+                    public_id: _searchResults[index]['pid']);
+              },
+            )
           : const Center(
-        child: Text(
-          'No search results found',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+              child: Text(
+                'No search results found',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
     );
   }
 }

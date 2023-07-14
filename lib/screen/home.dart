@@ -81,14 +81,14 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                       height: 290,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(14),
-                        topRight: Radius.circular(0),
-                        bottomLeft: Radius.circular(14),
-                        bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(14),
+                          topRight: Radius.circular(0),
+                          bottomLeft: Radius.circular(14),
+                          bottomRight: Radius.circular(0),
                         ),
                         image: DecorationImage(
                           image:
-                          AssetImage('lib/assets/images/backgroound.png'),
+                              AssetImage('lib/assets/images/backgroound.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -98,74 +98,96 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                       right: 0,
                       child: FutureBuilder(
                           future: futureRestaurant,
-                          builder: (context, snapshot){
-                        if (snapshot.hasData){
-                          return SizedBox(
-                              width: 133,
-                              height: 28,
-                              child: Stack(children: <Widget>[
-                                Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    child: Container(
-                                        width: 133,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(14),
-                                            topRight: Radius.circular(0),
-                                            bottomLeft: Radius.circular(14),
-                                            bottomRight: Radius.circular(0),
-                                          ),
-                                          color: snapshot.data['rstatus'] =='open' ? Color.fromRGBO(52, 103, 81, 1): Colors.red,
-                                        ))),
-                                Positioned(
-                                    top: 2,
-                                    left: 24,
-                                    child: Text(
-                                      '${snapshot.data['rstatus']}',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: snapshot.data['rstatus'] =='open'? Color.fromRGBO(255, 255, 255, 1) : Colors.white,
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 16,
-                                          letterSpacing:
-                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.normal,
-                                          height: 1.3333333333333333),
-                                    )),
-                                snapshot.data['rstatus'] =='open' ? Positioned(
-                                    top: 10,
-                                    left: 8,
-                                    child: Container(
-                                        width: 8,
-                                        height: 8,
-                                        decoration: const BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Color.fromRGBO(
-                                                    0, 51, 17, 0.47450000047683716),
-                                                offset: Offset(0.1484513133764267,
-                                                    1.0562859773635864),
-                                                blurRadius: 2.133333444595337)
-                                          ],
-                                          gradient: LinearGradient(
-                                              begin: Alignment(0.13917310535907745,
-                                                  0.9902680516242981),
-                                              end: Alignment(-0.9902680516242981,
-                                                  0.13917310535907745),
-                                              colors: [
-                                                Color.fromRGBO(0, 180, 61, 1),
-                                                Color.fromRGBO(0, 255, 105, 1)
-                                              ]),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.elliptical(8, 8)),
-                                        ))): Container(),
-                              ]));
-                        }else{
-                          return const CircularProgressIndicator();
-                        }
-                      }),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return SizedBox(
+                                  width: 133,
+                                  height: 28,
+                                  child: Stack(children: <Widget>[
+                                    Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        child: Container(
+                                            width: 133,
+                                            height: 28,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(14),
+                                                topRight: Radius.circular(0),
+                                                bottomLeft: Radius.circular(14),
+                                                bottomRight: Radius.circular(0),
+                                              ),
+                                              color: snapshot.data['rstatus'] ==
+                                                      'open'
+                                                  ? Color.fromRGBO(
+                                                      52, 103, 81, 1)
+                                                  : Colors.red,
+                                            ))),
+                                    Positioned(
+                                        top: 2,
+                                        left: 24,
+                                        child: Text(
+                                          '${snapshot.data['rstatus']}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: snapshot.data['rstatus'] ==
+                                                      'open'
+                                                  ? Color.fromRGBO(
+                                                      255, 255, 255, 1)
+                                                  : Colors.white,
+                                              fontFamily: 'SF Pro Display',
+                                              fontSize: 16,
+                                              letterSpacing:
+                                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.normal,
+                                              height: 1.3333333333333333),
+                                        )),
+                                    snapshot.data['rstatus'] == 'open'
+                                        ? Positioned(
+                                            top: 10,
+                                            left: 8,
+                                            child: Container(
+                                                width: 8,
+                                                height: 8,
+                                                decoration: const BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Color.fromRGBO(
+                                                            0,
+                                                            51,
+                                                            17,
+                                                            0.47450000047683716),
+                                                        offset: Offset(
+                                                            0.1484513133764267,
+                                                            1.0562859773635864),
+                                                        blurRadius:
+                                                            2.133333444595337)
+                                                  ],
+                                                  gradient: LinearGradient(
+                                                      begin: Alignment(
+                                                          0.13917310535907745,
+                                                          0.9902680516242981),
+                                                      end: Alignment(
+                                                          -0.9902680516242981,
+                                                          0.13917310535907745),
+                                                      colors: [
+                                                        Color.fromRGBO(
+                                                            0, 180, 61, 1),
+                                                        Color.fromRGBO(
+                                                            0, 255, 105, 1)
+                                                      ]),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.elliptical(
+                                                              8, 8)),
+                                                )))
+                                        : Container(),
+                                  ]));
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
                     )
                   ],
                 ),
@@ -227,29 +249,25 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                               Positioned(
                                   top: 2,
                                   left: 10,
-                                  child:
-                                  FutureBuilder(
+                                  child: FutureBuilder(
                                       future: futureRestaurant,
                                       builder: (context, snapshot) {
-                                      if(snapshot.hasData){
-                                        return Text(
-                                          snapshot.data['rdelivery_time'],
-                                          textAlign: TextAlign.left,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'SF Pro Display',
-                                              fontSize: 14,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                              height: 1.3333333333333333),
-                                        );
-                                      }
-                                      else{
-                                        return const CircularProgressIndicator();
-                                      }
-                                  })
-
-                        ),
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data['rdelivery_time'],
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'SF Pro Display',
+                                                fontSize: 14,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.normal,
+                                                height: 1.3333333333333333),
+                                          );
+                                        } else {
+                                          return const CircularProgressIndicator();
+                                        }
+                                      })),
                             ])),
                       ],
                     ),
@@ -517,19 +535,22 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
                             children:
-                            List.generate(snapshot.data.length, (index) {
-                              return snapshot.data[index]['pcategory'] == 'Breakfast' ? Products(
+                                List.generate(snapshot.data.length, (index) {
+                          return snapshot.data[index]['pcategory'] ==
+                                  'Breakfast'
+                              ? Products(
                                   public_id: snapshot.data[index]['pid'],
                                   logo: snapshot.data[index]['pimage'],
                                   product_name: snapshot.data[index]['pname'],
                                   price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']): Container();
-                            })),
+                                  description: snapshot.data[index]
+                                      ['pdescription'])
+                              : Container();
+                        })),
                       );
                     } else {
                       return CircularProgressIndicator();
@@ -544,19 +565,21 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
                             children:
-                            List.generate(snapshot.data.length, (index) {
-                              return snapshot.data[index]['pcategory'] == 'Lunch' ? Products(
+                                List.generate(snapshot.data.length, (index) {
+                          return snapshot.data[index]['pcategory'] == 'Lunch'
+                              ? Products(
                                   public_id: snapshot.data[index]['pid'],
                                   logo: snapshot.data[index]['pimage'],
                                   product_name: snapshot.data[index]['pname'],
                                   price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']): Container();
-                            })),
+                                  description: snapshot.data[index]
+                                      ['pdescription'])
+                              : Container();
+                        })),
                       );
                     } else {
                       return CircularProgressIndicator();
@@ -564,7 +587,6 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   }),
             ],
           ),
-
           ListView(
             padding: EdgeInsets.all(0),
             children: [
@@ -572,19 +594,21 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                   future: futureRestaurantMenu,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
                             children:
-                            List.generate(snapshot.data.length, (index) {
-                              return snapshot.data[index]['pcategory'] == 'Dinner' ? Products(
+                                List.generate(snapshot.data.length, (index) {
+                          return snapshot.data[index]['pcategory'] == 'Dinner'
+                              ? Products(
                                   public_id: snapshot.data[index]['pid'],
                                   logo: snapshot.data[index]['pimage'],
                                   product_name: snapshot.data[index]['pname'],
                                   price: snapshot.data[index]['pprice'],
-                                  description: snapshot.data[index]['pdescription']): Container();
-                            })),
+                                  description: snapshot.data[index]
+                                      ['pdescription'])
+                              : Container();
+                        })),
                       );
                     } else {
                       return CircularProgressIndicator();

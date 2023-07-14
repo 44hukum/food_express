@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:foodcommerce/model/user.dart';
@@ -77,6 +78,15 @@ class _SignupPageState extends State<SignupPage> {
       return;
     }
 
+    print("Here");
+      final csrf_url = Uri.http('10.0.2.2:8000', 'api/csrf_token/');
+    final resp = await http.get(csrf_url);
+    if(resp.statusCode == 200){
+      print(resp.body);
+    }
+
+    print('here and here');
+
     final url = Uri.http('10.0.2.2:8000', 'api/auth/register/');
 
     final Map<String, dynamic> requestData = {
@@ -88,12 +98,14 @@ class _SignupPageState extends State<SignupPage> {
       'password': _passwordController.text,
     };
 
+
     final http.Response response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json'},
       body: jsonEncode(requestData),
     );
-    print('here',);
+
     if (response.statusCode == 201) {
       // final Map<String, dynamic> responseData = jsonDecode(response.body);
       print('hERE');

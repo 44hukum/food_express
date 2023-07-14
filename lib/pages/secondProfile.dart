@@ -156,21 +156,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: Text(address),
                     trailing: _isEditing
                         ? IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             onPressed: () => _removeAddress(index),
                           )
                         : null,
                   );
                 },
               ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             if (_isEditing)
               Row(
                 children: [
                   Expanded(
                     child: TextFormField(
                       controller: _newAddressController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Add new address',
                         labelStyle: TextStyle(
                           fontSize: 16.0,
@@ -180,31 +180,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     onPressed: _addNewAddress,
                   ),
                 ],
               ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             if (_isEditing)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: _saveChanges,
-                    child: Text('Save'),
+                    child: const Text('Save'),
                   ),
-                  SizedBox(width: 10.0),
+                  const SizedBox(width: 10.0),
                   TextButton(
                     onPressed: _cancelChanges,
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
                 ],
               )
             else
               ElevatedButton(
                 onPressed: _toggleEdit,
-                child: Text('Edit Profile'),
+                child: const Text('Edit Profile'),
               ),
           ],
         ),

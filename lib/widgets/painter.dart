@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DottedPainter extends CustomPainter{
-
+class DottedPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()

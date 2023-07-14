@@ -1,4 +1,3 @@
-
 class User {
   // final String public_id;
   final int id;
@@ -12,7 +11,17 @@ class User {
   final String refresh_token;
   final String address;
 
-  User(this.id, this.username, this.access_token, this.refresh_token, this.public_id, this.email,this.phonenumber, this.first_name, this.last_name, this.address);
+  User(
+      this.id,
+      this.username,
+      this.access_token,
+      this.refresh_token,
+      this.public_id,
+      this.email,
+      this.phonenumber,
+      this.first_name,
+      this.last_name,
+      this.address);
 
   User.fromJson(Map<String, dynamic> json)
       : username = json['user']['username'],
@@ -27,15 +36,15 @@ class User {
         access_token = json['access'];
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'public_id': public_id,
-    'email': email,
-    'phonenumber': phonenumber,
-    'address': address,
-    'first_name': first_name,
-    'last_name': last_name,
-    'username': username,
-    'access_token': access_token,
-    'refresh_token': refresh_token,
-  };
+        'id': id,
+        'public_id': public_id,
+        'email': email,
+        'phonenumber': phonenumber,
+        'address': address,
+        'first_name': first_name,
+        'last_name': last_name,
+        'username': username,
+        'access_token': access_token,
+        'refresh_token': refresh_token,
+      };
 }

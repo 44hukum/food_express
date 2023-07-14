@@ -8,13 +8,15 @@ import 'package:foodcommerce/services/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getString('user') !=null ? true : false;
+  bool isLoggedIn = prefs.getString('user') != null ? true : false;
 
   print(prefs.get('user'));
-  runApp(MyApp(isLoggedIn: isLoggedIn,));
+  runApp(MyApp(
+    isLoggedIn: isLoggedIn,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,20 +25,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (context)=> CartModel(),
+      create: (context) => CartModel(),
       child: MaterialApp(
-        title: 'Food Commerce',
+        title: 'Food Express',
         debugShowCheckedModeBanner: false,
-        initialRoute: isLoggedIn ? 'home': 'login',
+        initialRoute: isLoggedIn ? 'home' : 'login',
         routes: {
-          'home':  (context) => const Home(),
-          'checkout':  (context) => const MyCheckoutCart(),
+          'home': (context) => const Home(),
+          'checkout': (context) => const MyCheckoutCart(),
           'login': (context) => LoginPage(),
           'signup': (context) => SignupPage(),
-          'info': (context) =>RestaurantInfoPage()
-
+          'info': (context) => RestaurantInfoPage()
         },
       ),
     );

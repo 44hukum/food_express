@@ -14,7 +14,6 @@ class RestaurantInfoPage extends StatefulWidget {
 }
 
 class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
-
   final String openingHours =
       'Monday - Friday: 9:00 AM - 9:00 PM\nSaturday - Sunday: 10:00 AM - 8:00 PM';
 
@@ -24,13 +23,12 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
     final url = Uri.http('10.0.2.2:8000', 'api/restaurant');
     var response = await http.get(url);
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    List<Restaurant> restaurant = decodedResponse['results'].map<Restaurant>((json){
+    List<Restaurant> restaurant =
+        decodedResponse['results'].map<Restaurant>((json) {
       return Restaurant.fromJson(json);
     }).toList();
     return restaurant[0].toJson();
   }
-
-
 
   @override
   void initState() {
@@ -61,8 +59,8 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
       ),
       body: FutureBuilder(
         future: futureRestaurantInfo,
-        builder: (context, snapshot){
-          if(snapshot.hasData){
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
             return Padding(
               padding: EdgeInsets.all(16.0),
               child: ListView(
@@ -175,7 +173,6 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
-
                   ListTile(
                     leading: Icon(Icons.local_phone),
                     title: Text(
@@ -192,11 +189,10 @@ class _RestaurantInfoPageState extends State<RestaurantInfoPage> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             );
-          }else{
+          } else {
             return const CircularProgressIndicator();
           }
         },

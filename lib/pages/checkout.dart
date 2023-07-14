@@ -172,7 +172,6 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
         duration: Duration(seconds: 4),
         backgroundColor: Colors.red,
       ),
-
     );
   }
 
@@ -578,11 +577,11 @@ class _MyCheckoutCartState extends State<MyCheckoutCart> {
                                             // String data = '{"user": ${user['id']}, "order_items": $orderItems';
                                             Map<String, dynamic> data = {
                                               'user': user['id'],
-                                              'payment_method': 'esewa',
+                                              'payment_method': 'cash on delivery',
                                               'order_items': orderItems
                                             };
                                             _placeOrder(context, data);
-                                          }else{
+                                          } else {
                                             Navigator.pop(context);
                                             _showSnackbar();
                                           }

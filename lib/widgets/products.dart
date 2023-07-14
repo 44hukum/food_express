@@ -32,11 +32,11 @@ class _ProductsState extends State<Products> {
     _sqliteService = SqliteService();
     _sqliteService.initializeDB().whenComplete(() async {
       final data = await _sqliteService.createItem(order);
-        if(data != null){
-          setState(() {
-            itemsAddedToCart = true;
-          });
-        }
+      if (data != null) {
+        setState(() {
+          itemsAddedToCart = true;
+        });
+      }
     });
   }
 
@@ -223,27 +223,29 @@ class _ProductsState extends State<Products> {
                             bottomRight: Radius.circular(24),
                           ),
                         ),
-                        child: itemsAddedToCart ? const Text(
-                          'Update Cart',
-                          style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              fontFamily: 'SF Pro Display',
-                              fontSize: 14,
-                              letterSpacing:
-                              0 /*percentages not used in flutter. defaulting to zero*/,
-                              fontWeight: FontWeight.normal,
-                              height: 1.4285714285714286),
-                        ):const Text(
-                          'Add to Cart',
-                          style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              fontFamily: 'SF Pro Display',
-                              fontSize: 14,
-                              letterSpacing:
-                                  0 /*percentages not used in flutter. defaulting to zero*/,
-                              fontWeight: FontWeight.normal,
-                              height: 1.4285714285714286),
-                        ),
+                        child: itemsAddedToCart
+                            ? const Text(
+                                'Update Cart',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'SF Pro Display',
+                                    fontSize: 14,
+                                    letterSpacing:
+                                        0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.4285714285714286),
+                              )
+                            : const Text(
+                                'Add to Cart',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'SF Pro Display',
+                                    fontSize: 14,
+                                    letterSpacing:
+                                        0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.4285714285714286),
+                              ),
                       ),
                     )
                   : Container(),

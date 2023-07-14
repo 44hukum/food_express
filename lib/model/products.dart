@@ -6,8 +6,8 @@ class ProductModel {
   final String pcategory;
   final String pdescription;
 
-
-  ProductModel(this.pid,this.pname, this.pimage, this.pprice, this.pdescription, this.pcategory);
+  ProductModel(this.pid, this.pname, this.pimage, this.pprice,
+      this.pdescription, this.pcategory);
   ProductModel.fromJson(Map<String, dynamic> json)
       : pid = json['public_id'],
         pcategory = json['category_name'],
@@ -16,12 +16,12 @@ class ProductModel {
         pdescription = json['description'],
         pprice = json['price'];
 
-  Map<String, dynamic> toJson()=>{
-    'pid': pid,
-    'pname': pname,
-    'pcategory': pcategory,
-    'pimage': pimage,
-    'pdescription': pdescription,
-    'pprice': pprice,
-  };
+  Map<String, dynamic> toJson() => {
+        'pid': pid,
+        'pname': pname,
+        'pcategory': pcategory,
+        'pimage': pimage,
+        'pdescription': pdescription,
+        'pprice': pprice,
+      };
 }
